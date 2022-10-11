@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from . models import Difficulty, RouteType, State, Park, Trail, Image
-from . serializers import DifficultySerializer, RouteTypeSerializer, StateSerializer, ParkSerializer, TrailSerializer, ImageSerializer
+from accounts.models import UserAccount
+from . models import Difficulty, RouteType, State, Park, Trail, Image, Review, UserFavorite, History
+from . serializers import DifficultySerializer, RouteTypeSerializer, StateSerializer, ParkSerializer, TrailSerializer, ImageSerializer, ReviewSerializer, UserFavoriteSerializer, HistorySerializer
 
 # Create your views here.
 
-# Difficulties
+user = get_user_model()
+
+# Difficulty
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
@@ -24,7 +28,7 @@ def getDifficulty(request, pk):
     serializer = DifficultySerializer(difficulty, many=False)
     return Response(serializer.data)
 
-# RouteTypes
+# RouteType
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
@@ -41,7 +45,7 @@ def getRouteType(request, pk):
     serializer = RouteTypeSerializer(routetype, many=False)
     return Response(serializer.data)
 
-# States
+# State
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
@@ -58,7 +62,7 @@ def getState(request, pk):
     serializer = StateSerializer(state, many=False)
     return Response(serializer.data)
 
-# Parks
+# Park
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
@@ -90,7 +94,7 @@ def createPark(request):
     serializer = ParkSerializer(park, many=False)
     return Response(serializer.data)
 
-# Trails
+# Trail
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
@@ -128,11 +132,87 @@ def createTrail(request):
     serializer = TrailSerializer(trail, many=False)
     return Response(serializer.data)
 
-# Images
+# Image
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
 def getImages(request):
     images = Image.objects.all().order_by('trail')
     serializer = ImageSerializer(images, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def createImage(request):
+    data = request.data
+    trail = Trail.objects.get(id=int(data['trail']))
+
+    image = Image.objects.create(
+        img_url=data['img_url'],
+        trail=trail
+    )
+    serializer = ImageSerializer(image, many=False)
+    return Response(serializer.data)
+
+# Review
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
+def getReviews(request):
+    reviews = Review.objects.all().order_by('date')
+    serializer = ReviewSerializer(reviews, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def createReview(request):
+    data = request.data
+    user = UserAccount.objects.get(id=int(data['currentUser']))
+    trail = Trail.objects.get(id=int(data['id']))
+
+    review = Review.objects.create(
+        rating=data['rating'],
+        body=data['text'],
+        user=user,
+        trail=trail
+    )
+    serializer = ReviewSerializer(review, many=False)
+    return Response(serializer.data)
+
+# UserFavorite
+@api_view(['GET'])
+def getUserFavorites(request):
+    userfavorites = UserFavorite.objects.all()
+    serializer = UserFavoriteSerializer(userfavorites, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def createUserFavorite(request):
+    data = request.data
+    user = UserAccount.objects.get(id=int(data['user']))
+    trail = Trail.objects.get(id=int(data['trail']))
+
+    userfavorite = UserFavorite.objects.create(
+        user=user,
+        trail=trail
+    )
+    serializer = UserFavoriteSerializer(userfavorite, many=False)
+    return Response(serializer.data)
+
+# History
+@api_view(['GET'])
+def getHistory(request):
+    history = History.objects.all().order_by('date')
+    serializer = HistorySerializer(history, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def createHistory(request):
+    data = request.data
+    user = UserAccount.objects.get(id=int(data['user']))
+    trail = Trail.objects.get(id=int(data['trail']))
+
+    history = History.objects.create(
+        user=user,
+        trail=trail
+    )
+    serializer = HistorySerializer(history, many=False)
     return Response(serializer.data)

@@ -292,6 +292,10 @@ hr {
   width: auto;
 }
 
+.trail-review {
+  margin-bottom: 5%;
+}
+
 /* Parks Page */
 #parks-page {
   background-color: #E6E6E3;

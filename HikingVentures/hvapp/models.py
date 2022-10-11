@@ -74,3 +74,37 @@ class Image(models.Model):
 
     class Meta:
         ordering = ['trail']
+
+class Review(models.Model):
+    body = models.CharField(max_length=2000)
+    rating = models.CharField(max_length=10)
+    date = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, related_name='user_reviews', on_delete=models.CASCADE)
+    trail = models.ForeignKey(Trail, related_name='reviews', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.first_name + ' ' + self.user.last_name + ' ' + self.rating + ' ' + self.trail.name
+
+    class Meta:
+        pass
+
+class UserFavorite(models.Model):
+    user = models.ForeignKey(User, related_name='user_trails', on_delete=models.CASCADE)
+    trail = models.ForeignKey(Trail, related_name='favorites', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.first_name + ' ' + self.user.last_name
+
+    class Meta:
+        unique_together = ('user', 'trail')
+
+class History(models.Model):
+    date = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, related_name='user_history', on_delete=models.CASCADE)
+    trail = models.ForeignKey(Trail, related_name='history', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.first_name + ' ' + self.user.last_name + ' ' + self.date + ' ' + self.trail.name
+
+    class Meta:
+        pass

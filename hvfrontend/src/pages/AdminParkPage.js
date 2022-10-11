@@ -34,16 +34,6 @@ function AdminParkPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    // fetch('http://127.0.0.1:8000/hvapp/parks/create/', {
-    //   'method':'POST',
-    //   headers: {
-    //     'Content-Type':'application/json'
-    //   },
-    //   body: JSON.stringify({ formData })
-    // })
-    // .then(resp => resp.json())
-    // .catch(error => console.log(error))
-
     const config = {
       headers: {
         'Content-Type': 'application/json',
