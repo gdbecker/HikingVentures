@@ -1,0 +1,522 @@
+/* Color Palette
+Blue: #525E75
+Dark Green: #78938A
+Light Green: #92ba92
+Tan: #F1DDBF
+Light Gray: #E6E6E3*/
+
+/* Imported Fonts */
+@font-face {
+    font-family: Poppins;
+    src: url(assets/fonts/Poppins-Regular.ttf);
+}
+
+@font-face {
+    font-family: Martel;
+    src: url(assets/fonts/Martel-Regular.ttf);
+}
+
+.App {
+  background-color: #525E75;
+  color: white;
+  min-height: 100vh;
+  width: auto;
+}
+
+/* Landing Page */
+#landing-page {
+  background-image: url('assets/bg-landing.jpg');
+  background-color: #525E75;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-family: Poppins;
+  min-height: 100vh;
+  text-align: left;
+  width: auto;
+}
+
+.landing-container {
+  text-align: center;
+}
+
+.landing-box {
+  border: white solid 3px;
+  margin-top: 20%;
+  margin-bottom: 10%;
+  padding: 75px;
+  text-align: center;
+}
+
+.landing-subtitle {
+  font-family: Martel;
+}
+
+.landing-logo {
+  fill: #78938A;
+  width: 20%;
+}
+
+.auth-button {
+  background-color: #92ba92;
+  border: 0px;
+  color: white;
+  font-size: 110%;
+  font-weight: bold;
+  margin: 2.5%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+  top: 50%;
+  width: 18%;
+}
+
+.auth-button:hover {
+  background-color: #78938A ;
+}
+
+.account-button {
+  background-color: #525E75;
+  border: 0px;
+  color: white;
+  font-size: 110%;
+  font-weight: bold;
+  margin: 2.5%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+  top: 50%;
+  width: 18%;
+}
+
+.account-button:hover {
+  background-color: #78938A ;
+}
+
+.account-form {
+  text-align: center;
+}
+
+.account-form-help {
+  color: black;
+  font-family: Martel;
+}
+
+.account-form-link {
+  color: black;
+}
+
+.account-form-link:hover {
+  color: #F1DDBF;
+}
+
+.account-image-crop {
+  border-radius: 50%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+}
+
+.account-image {
+  height: 100%;
+  width: auto;
+}
+
+/* Login & Register Page */
+#login-register-page {
+  background-image: url('assets/topography-light-green.svg');
+  background-color: #F1DDBF;
+  background-repeat: repeat;
+  background-position: center;
+  font-family: Poppins;
+  min-height: 100vh;
+  position: relative;
+  text-align: center;
+  width: auto;
+}
+
+.login-register-header {
+  color: #525E75;
+  font-weight: bold;
+  padding-top: 2%;
+  margin-bottom: 2%;
+  text-align: center;
+}
+
+.form-control {
+  margin: 5px 0;
+ }
+
+.form-help {
+  color: #525E75;
+  font-family: Martel;
+}
+
+.form-link {
+  color: #92ba92;
+}
+
+.form-link:hover {
+  color: #78938A;
+}
+
+/* Trails Page */
+#trails-page {
+  background-color: #E6E6E3;
+  background-repeat: repeat;
+  background-position: center;
+  font-family: Poppins;
+  min-height: 100vh;
+  position: relative;
+  text-align: left;
+}
+
+.header-photo-trails {
+  background-image: url('assets/bg-trails.jpg');
+  background-position: 25% 38%;
+  background-size: cover;
+  margin-bottom: 4%;
+  min-height: 35vh;
+  padding-top: 2%;
+  padding-left: 5%;
+  font-weight: bold;
+}
+
+.header-text-trails {
+  font-weight: bold;
+}
+
+.trail-card {
+  background-color: white;
+  color: black;
+  font-family: Martel;
+  margin-bottom: 25px;
+  min-height: 45vh;
+  padding: 7px;
+}
+
+.trail-image {
+  margin-bottom: 5%;
+  min-height: 35vh;
+  text-align: center;
+  width: 100%;
+}
+
+/* Trails Details Page */
+#trails-detail-page {
+  background-color: #E6E6E3;
+  background-repeat: repeat;
+  background-position: center;
+  font-family: Poppins;
+  min-height: 100vh;
+  position: relative;
+  text-align: left;
+}
+
+.header-photo-trails-detail {
+  background-image: url('assets/bg-trails-detail.jpg');
+  background-position: 25% 45%;
+  background-size: cover;
+  min-height: 35vh;
+  padding-top: 2%;
+  padding-left: 5%;
+  font-weight: bold;
+}
+
+.header-text-trails-detail {
+  font-weight: bold;
+  padding-bottom: 1.5%;
+}
+
+.h3-text-trails-detail {
+  font-family: Martel;
+}
+
+.trails-content {
+  background-color: white;
+  padding-left: 5%;
+  text-align: center;
+  margin-bottom: -10%;
+}
+
+.trails-content-text {
+  color: black;
+  font-family: Martel;
+  margin: 2% 5% 2% 3%;
+  text-align: left;
+}
+
+.trails-content-specs {
+  color: black;
+  font-family: Martel;
+  margin: 8%;
+  text-align: center;
+  font-weight: bold;
+}
+
+hr {
+  background-color:#F1DDBF;
+  border-width: 0;
+  height: 4px;
+  width: 100%;
+  display: block;
+  margin: 0 8% 8% 8%;
+}
+
+.map-image {
+  margin-bottom: 5%;
+  min-height: 35vh;
+  text-align: center;
+  width: 90%;
+}
+
+.user-image-crop {
+  border-radius: 50%;
+  height: 100px;
+  overflow: hidden;
+  position: relative;
+  width: 100px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+}
+
+.user-image-review {
+  height: 100%;
+  width: auto;
+}
+
+/* Parks Page */
+#parks-page {
+  background-color: #E6E6E3;
+  background-repeat: repeat;
+  background-position: center;
+  font-family: Poppins;
+  min-height: 100vh;
+  position: relative;
+  text-align: left;
+}
+
+.header-photo-parks {
+  background-image: url('assets/bg-parks.jpg');
+  background-position: 25% 52%;
+  background-size: cover;
+  margin-bottom: 4%;
+  min-height: 35vh;
+  padding-top: 2%;
+  padding-left: 5%;
+  font-weight: bolder;
+}
+
+.header-text-parks {
+  font-weight: bold;
+}
+
+.park-card {
+  background-color: white;
+  color: black;
+  font-family: Martel;
+  margin-bottom: 25px;
+  min-height: 45vh;
+  padding: 7px;
+}
+
+.park-image {
+  margin-bottom: 5%;
+  min-height: 35vh;
+  text-align: center;
+  width: 100%;
+}
+
+/* Saved Page */
+#saved-page {
+  background-color: #E6E6E3;
+  background-repeat: repeat;
+  background-position: center;
+  font-family: Poppins;
+  min-height: 100vh;
+  position: relative;
+  text-align: left;
+}
+
+.header-photo-saved {
+  background-image: url('assets/bg-saved.jpg');
+  background-position: 25% 35%;
+  background-size: cover;
+  margin-bottom: 4%;
+  min-height: 35vh;
+  padding-top: 2%;
+  padding-left: 5%;
+  font-weight: bold;
+}
+
+.header-text-saved {
+  font-weight: bold;
+}
+
+/* Account Pages */
+#account-page {
+  background-image: url('assets/topography-blue.svg');
+  background-color: #92ba92;
+  background-repeat: repeat;
+  background-position: center;
+  font-family: Poppins;
+  min-height: 100vh;
+  position: relative;
+  text-align: left;
+  width: auto;
+}
+
+.account-header {
+  color: white;
+  font-weight: bold;
+  padding-bottom: 3%;
+  padding-top: 2%;
+  padding-left: 5%;
+  text-align: left;
+}
+
+.account-review-text {
+  font-family: Martel;
+  text-align: left;
+}
+
+.account-history-text {
+  font-family: Martel;
+  text-align: left;
+}
+
+/* Account Pages */
+#admin-page {
+  background-image: url('assets/topography-tan.svg');
+  background-color: #78938A;
+  background-repeat: repeat;
+  background-position: center;
+  font-family: Poppins;
+  min-height: 100vh;
+  position: relative;
+  text-align: left;
+  width: auto;
+}
+
+.admin-header {
+  color: white;
+  font-weight: bold;
+  padding-bottom: 3%;
+  padding-top: 2%;
+  padding-left: 5%;
+  text-align: left;
+}
+
+.admin-button {
+  background-color: #F1DDBF;
+  border: 0px;
+  color: black;
+  font-size: 110%;
+  font-weight: bold;
+  margin: 2.5%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+  top: 50%;
+  width: 18%;
+}
+
+.admin-button:hover {
+  background-color: #92ba92 ;
+}
+
+textarea {
+  height: 20vh;
+}
+
+/* Navigation */
+#navigation {
+  background-color: #525E75;
+  font-family: Poppins;
+  text-align: left;
+}
+
+.nav-logo {
+  fill: #92ba92;
+  width: 14%;
+}
+
+.navbar {
+    padding: 0 0 4.5rem;
+}
+
+.navbar-brand {
+  width: 350px;
+}
+
+.nav-item {
+    padding: 0 10px;
+}
+
+.nav-link {
+    font-size: 1.2rem;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+/* Footers */
+.footer {
+  background-color: #525E75;
+  font-family: Martel;
+  flex-shrink: 0;
+  margin-top: 15%;
+  padding-top: 40px;
+  padding-bottom: 30px;
+  position: absolute;
+  text-align: center;
+  bottom:0;
+  width: 100%;
+}
+
+.footer-landing {
+  background-color: #525E75;
+  font-family: Martel;
+  flex-shrink: 0;
+  margin-top: 20%;
+  padding-top: 40px;
+  padding-bottom: 30px;
+  text-align: center;
+  position: absolute;
+  bottom:0;
+  width: 100%;
+}
+
+.footer-wrapper {
+  position: relative;
+  min-height: 70vh;
+}
+
+.social-icon {
+  margin: 18px;
+  width: 2.2%;
+}
+
+.email-icon {
+  fill: #92ba92;
+}
+
+.facebook-icon {
+  fill: #1877F2;
+}
+
+.instagram-icon {
+  fill: #c32aa3;
+}
+
+.tiktok-icon {
+  fill: #010101;
+}
