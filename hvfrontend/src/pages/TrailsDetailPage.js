@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
+import TrailBanner from '../components/TrailBanner';
 import TrailReview from '../components/TrailReview';
 import Footer from '../components/Footer';
 import axios from 'axios';
@@ -156,11 +157,17 @@ function TrailsDetailPage({ user }) {
   if (isLoading === false) {
     return (
       <div id="trails-detail-page">
-        <div className="header-photo-trails-detail">
-          <h1 className="header-text-trails-detail">{trail?.name}</h1>
-          <h4 className="h3-text-trails-detail">{trail.difficulty?.rank} || {ave}⭐</h4>
-          <h4 className="h3-text-trails-detail">{trail.park?.name} || {trail.park?.city}, {trail.park.state?.full_name}, {trail.park.state?.country}</h4>
-        </div>
+
+        <TrailBanner
+          img={trail?.img_url}
+          name={trail?.name}
+          difficulty={trail.difficulty?.rank}
+          ave={ave}
+          parkName={trail.park?.name}
+          parkCity={trail.park?.city}
+          parkState={trail.park.state?.full_name}
+          parkCountry={trail.park.state?.country}
+        />
 
         <div className="container px-0 trails-content">
           <div className="row">

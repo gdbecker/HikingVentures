@@ -219,7 +219,7 @@ Light Gray: #E6E6E3*/
 }
 
 .header-photo-trails-detail {
-  background-image: url('assets/bg-trails-detail.jpg');
+  /* background-image: url('assets/bg-trails-detail.jpg'); */
   background-position: 25% 45%;
   background-size: cover;
   min-height: 35vh;

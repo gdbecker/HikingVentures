@@ -6,6 +6,7 @@ import axios from 'axios';
 function TrailsPage() {
 
   const [trails, setTrails] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,6 +25,20 @@ function TrailsPage() {
         await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/trails/`, config)
          .then(function (response) {
            setTrails(response.data)
+
+         })
+        .catch(function (error) {
+           console.log(error);
+        });
+
+      } catch (err) {
+        console.log(err)
+      }
+
+      try {
+        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/reviews/`, config)
+         .then(function (response) {
+           setReviews(response.data)
            setIsLoading(false)
          })
         .catch(function (error) {
@@ -51,6 +66,7 @@ function TrailsPage() {
                 <TrailCard
                   key={trail.id}
                   trail={trail}
+                  reviews={reviews}
                 />
               </div>
             ))}
