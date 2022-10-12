@@ -7,12 +7,18 @@ import Footer from '../components/Footer';
 import axios from 'axios';
 
 let averageRating = (reviews) => {
-  let reviewCount = reviews.length
-  let reviewSum = reviews.map(r => parseInt(r.rating)).reduce((prev, next) => prev + next);
-  return reviewSum / reviewCount;
+  if (reviews.length === 0) {
+    return "no ratings yet!"
+  } else {
+    let reviewCount = reviews.length
+    let reviewSum = reviews.map(r => parseInt(r.rating)).reduce((prev, next) => prev + next);
+    return (reviewSum / reviewCount).toFixed(2) + "⭐";
+  }
 }
 
 function TrailsDetailPage({ user }) {
+
+  const {id} = useParams()
 
   const [trail, setTrail] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -21,6 +27,7 @@ function TrailsDetailPage({ user }) {
 
   useEffect(() => {
     getData();
+
   },[]);
 
   async function getData() {
@@ -34,7 +41,6 @@ function TrailsDetailPage({ user }) {
       await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/trails/${id}/`, config)
        .then(function (response) {
          setTrail(response.data)
-         setIsLoading(false)
        })
       .catch(function (error) {
          console.log(error);
@@ -47,8 +53,11 @@ function TrailsDetailPage({ user }) {
     try {
       await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/reviews/`, config)
        .then(function (response) {
-         setReviews(response.data)
-         setAve(averageRating(response.data))
+         let reviewArray = response.data
+         let newArray = reviewArray.filter(r => r.trail.id == id)
+         setReviews(newArray)
+         setAve(averageRating(newArray))
+         setIsLoading(false)
        })
       .catch(function (error) {
          console.log(error);
@@ -58,10 +67,8 @@ function TrailsDetailPage({ user }) {
       console.log(err)
     }
 
-    reviews.filter(r => r.trail === id)
-  }
 
-  const {id} = useParams()
+  }
 
   const formVisible = () => (
     <Fragment>
@@ -199,7 +206,7 @@ function TrailsDetailPage({ user }) {
               <div className="row">
                 <div className="col-md-12">
                   <div className="p-2">
-                    <h4 className="trails-content-text">reviews || {ave}⭐</h4>
+                    <h4 className="trails-content-text">reviews || {ave}</h4>
                   </div>
                 </div>
               </div>

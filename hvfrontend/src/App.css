@@ -209,21 +209,25 @@ Light Gray: #E6E6E3*/
 }
 
 .add-favorite-button {
+  min-width: 50px;
   fill: white;
   text-align: center;
   align-content: center;
 }
 
 .favorite-button {
-  fill: red;
+  fill: #c93543;
+  text-align: center;
+  align-content: center;
 }
 
 .trail-button {
-  min-width: 80px;
-  background-color: blue;
+  min-width: 50px;
+  background-color: transparent;
   border: 0px;
   text-align: center;
   align-content: center;
+  margin-top: 10px;
 }
 
 .trail-page-link {

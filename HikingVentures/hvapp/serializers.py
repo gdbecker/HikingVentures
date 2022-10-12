@@ -34,13 +34,13 @@ class TrailSerializer(ModelSerializer):
 class ImageSerializer(ModelSerializer):
     class Meta:
         model = Image
-        fields = ('trail', 'img_url')
+        fields = ('id', 'trail', 'img_url')
     trail = TrailSerializer(many=False)
 
 class ReviewSerializer(ModelSerializer):
     class Meta:
         model = Review
-        fields = ('body', 'rating', 'date', 'user', 'trail')
+        fields = ('id', 'body', 'rating', 'date', 'user', 'trail')
     user = UserCreateSerializer(many=False)
     trail = TrailSerializer(many=False)
 
@@ -54,6 +54,6 @@ class UserFavoriteSerializer(ModelSerializer):
 class HistorySerializer(ModelSerializer):
     class Meta:
         model = History
-        fields = ('date', 'user', 'trail')
+        fields = ('id', 'date', 'user', 'trail')
     user = UserCreateSerializer(many=False)
     trail = TrailSerializer(many=False)

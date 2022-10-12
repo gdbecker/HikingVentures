@@ -179,6 +179,8 @@ def createReview(request):
 
 # UserFavorite
 @api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
 def getUserFavorites(request):
     userfavorites = UserFavorite.objects.all()
     serializer = UserFavoriteSerializer(userfavorites, many=True)

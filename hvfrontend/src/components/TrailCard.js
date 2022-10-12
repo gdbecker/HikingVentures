@@ -4,49 +4,23 @@ import { ReactComponent as Favorite } from '../assets/favorite.svg';
 import axios from 'axios';
 
 let averageRating = (reviews) => {
-  let reviewCount = reviews.length
-  let reviewSum = reviews.map(r => parseInt(r.rating)).reduce((prev, next) => prev + next);
-  return reviewSum / reviewCount;
+  if (reviews.length === 0) {
+    return "no ratings yet!"
+  } else {
+    let reviewCount = reviews.length
+    let reviewSum = reviews.map(r => parseInt(r.rating)).reduce((prev, next) => prev + next);
+    return (reviewSum / reviewCount).toFixed(2) + "⭐";
+  }
 }
 
-function TrailCard({ user, trail, reviews }) {
+function TrailCard({ user, trail, reviews, ufID, isFavorite }) {
 
-  const [trailReviews, setTrailReviews] = useState([]);
   const [ave, setAve] = useState(null);
-  const [userFavorites, setUserFavorites] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    reviews.filter(r => r.trail === trail?.id)
-    setAve(averageRating(reviews))
-    getData();
+    let filteredReviews = reviews.filter(r => r.trail.id == trail?.id);
+    setAve(averageRating(filteredReviews));
   },[])
-
-  async function getData() {
-    if (localStorage.getItem('access')) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `JWT ${localStorage.getItem('access')}`,
-          'Accept': 'application/json'
-        }
-      };
-
-      try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
-         .then(function (response) {
-           setUserFavorites(response.data)
-           setIsLoading(false)
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
-    }
-  }
 
   let addFavoriteClick = async () => {
     const config = {
@@ -63,14 +37,14 @@ function TrailCard({ user, trail, reviews }) {
     const body = JSON.stringify({ userID, trailID });
 
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/create/`, body, config)
+      await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/create/`, body, config);
 
     } catch (err) {
       console.log(err)
     }
   }
 
-  let removeFavoriteClick = async (ufID) => {
+  let removeFavoriteClick = async () => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -80,7 +54,7 @@ function TrailCard({ user, trail, reviews }) {
     };
 
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/delete/${ufID}`, config)
+      await axios.delete(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/delete/${ufID}/`, config);
 
     } catch (err) {
       console.log(err)
@@ -102,38 +76,32 @@ function TrailCard({ user, trail, reviews }) {
   const showFavorite = () => (
     <Fragment>
       <button onClick={removeFavoriteClick} className="trail-button">
-        <Favorite className="favorite-button"/>
+        <h1><Favorite className="favorite-button"/></h1>
       </button>
     </Fragment>
   );
 
-  // {userFavorites.map((u) => {
-  //   u.trail.id == trail.id ? (showFavorite()) : (showAddFavorite())}
-  // )}
-
-  if (isLoading === false) {
-    return (
-      <div className="trail-card">
-        <div className="p-3">
-          <div className="trail-image" style={divStyle}>
-            <div className="row">
-              <div className="col-lg-10">
-              </div>
-              <div className="col-lg-2">
-
-              </div>
+  return (
+    <div className="trail-card">
+      <div className="p-3">
+        <div className="trail-image" style={divStyle}>
+          <div className="row">
+            <div className="col-10">
+            </div>
+            <div className="col-2">
+              {isFavorite ? showFavorite() : showAddFavorite()}
             </div>
           </div>
-
-          <a href={`/trails/${trail?.id}`} className="trail-page-link">
-            <h4>{trail?.name}</h4>
-          </a>
-          <p>{trail.difficulty?.rank} || {ave}⭐</p>
-          <p>{trail.park?.city}, {trail.park.state?.full_name}, {trail.park.state?.country}</p>
         </div>
+
+        <a href={`/trails/${trail?.id}`} className="trail-page-link">
+          <h4>{trail?.name}</h4>
+        </a>
+        <p>{trail.difficulty?.rank} || {ave}</p>
+        <p>{trail.park?.city}, {trail.park.state?.full_name}, {trail.park.state?.country}</p>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default TrailCard;
