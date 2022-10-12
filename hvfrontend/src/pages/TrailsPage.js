@@ -9,13 +9,11 @@ function TrailsPage({ user }) {
   const [trails, setTrails] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [userFavorites, setUserFavorites] = useState([]);
-  const [notUserFavorites, setNotUserFavorites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getData();
     setUserFavorites(userFavorites.filter(u => u.user.id === user?.id));
-    setNotUserFavorites(notUserFavorites.filter(u => u.user.id === user?.id));
   },[])
 
   async function getData() {
@@ -58,9 +56,7 @@ function TrailsPage({ user }) {
         await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
          .then(function (response) {
            setUserFavorites(response.data)
-           setNotUserFavorites(response.data)
            setIsLoading(false)
-           console.log(response.data)
          })
         .catch(function (error) {
            console.log(error);
@@ -80,33 +76,44 @@ function TrailsPage({ user }) {
         </div>
 
         <div className="container px-0">
-        <div class="row g-2">
+          <div class="row g-2">
 
-          {trails.map((t, index) => (
-            <div className="col-md-6">
-              {userFavorites.filter(u => u.trail.id === t?.id).map((u, index) => (
-                <TrailCard
-                  key={t.id}
-                  user={user}
-                  trail={t}
-                  reviews={reviews}
-                  ufID={u.id}
-                  isFavorite={true}
-                />
-              ))}
-            </div>
+            {trails.map((t, index) => {
+              let found = false
+              var i;
+                for (i = 0; i < userFavorites.length; i++) {
+                  if (userFavorites[i].trail.id === t.id) {
+                    found = true;
+                    return (
+                      <div className="col-md-6" key={index}>
+                        <TrailCard
+                          key={t.id}
+                          user={user}
+                          trail={t}
+                          reviews={reviews}
+                          ufID={userFavorites[i].id}
+                          isFavorite={true}
+                        />
+                      </div>
+                    )
+                  }
+                }
 
-            <div className="col-md-6">
-              <TrailCard
-                key={t.id}
-                user={user}
-                trail={t}
-                reviews={reviews}
-                ufID={0}
-                isFavorite={false}
-              />
-            </div>
-            ))}
+              if (found === false) {
+                return (
+                  <div className="col-md-6" key={index}>
+                    <TrailCard
+                      key={t.id}
+                      user={user}
+                      trail={t}
+                      reviews={reviews}
+                      ufID={0}
+                      isFavorite={false}
+                    />
+                  </div>
+                )
+              }
+            })}
           </div>
         </div>
 

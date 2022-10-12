@@ -38,7 +38,7 @@ function TrailCard({ user, trail, reviews, ufID, isFavorite }) {
 
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/create/`, body, config);
-
+      window.location.reload(false);
     } catch (err) {
       console.log(err)
     }
@@ -55,7 +55,7 @@ function TrailCard({ user, trail, reviews, ufID, isFavorite }) {
 
     try {
       await axios.delete(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/delete/${ufID}/`, config);
-
+      window.location.reload(false);
     } catch (err) {
       console.log(err)
     }
@@ -67,7 +67,7 @@ function TrailCard({ user, trail, reviews, ufID, isFavorite }) {
 
   const showAddFavorite = () => (
     <Fragment>
-      <button onClick={addFavoriteClick} className="trail-button">
+      <button onClick={addFavoriteClick} className="trail-button" title="save trail">
         <AddFavorite className="add-favorite-button"/>
       </button>
     </Fragment>
@@ -75,7 +75,7 @@ function TrailCard({ user, trail, reviews, ufID, isFavorite }) {
 
   const showFavorite = () => (
     <Fragment>
-      <button onClick={removeFavoriteClick} className="trail-button">
+      <button onClick={removeFavoriteClick} className="trail-button" title="remove trail">
         <h1><Favorite className="favorite-button"/></h1>
       </button>
     </Fragment>

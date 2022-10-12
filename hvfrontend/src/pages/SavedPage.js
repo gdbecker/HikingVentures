@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import TrailCard from '../components/TrailCard';
 import Footer from '../components/Footer';
 import axios from 'axios';
 
-function SavedPage() {
+function SavedPage({ user }) {
 
   const [trails, setTrails] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [userFavorites, setUserFavorites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getData();
+    setUserFavorites(userFavorites.filter(u => u.user.id === user?.id));
   },[])
 
   async function getData() {
@@ -48,6 +51,20 @@ function SavedPage() {
       } catch (err) {
         console.log(err)
       }
+
+      try {
+        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
+         .then(function (response) {
+           setUserFavorites(response.data)
+           setIsLoading(false)
+         })
+        .catch(function (error) {
+           console.log(error);
+        });
+
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 
@@ -61,15 +78,27 @@ function SavedPage() {
         <div className="container px-0">
           <div class="row g-2">
 
-            {trails.map((trail) => (
-              <div className="col-md-6">
-                <TrailCard
-                  key={trail.id}
-                  trail={trail}
-                  reviews={reviews}
-                />
-              </div>
-            ))}
+          {trails.map((t, index) => {
+            let found = false
+            var i;
+              for (i = 0; i < userFavorites.length; i++) {
+                if (userFavorites[i].trail.id === t.id) {
+                  return (
+                    <div className="col-md-6" key={index}>
+                      <TrailCard
+                        key={t.id}
+                        user={user}
+                        trail={t}
+                        reviews={reviews}
+                        ufID={userFavorites[i].id}
+                        isFavorite={true}
+                      />
+                    </div>
+                  )
+                  found = true;
+                }
+              }
+          })}
 
           </div>
         </div>
@@ -80,4 +109,8 @@ function SavedPage() {
   }
 }
 
-export default SavedPage;
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
+
+export default connect(mapStateToProps)(SavedPage);
