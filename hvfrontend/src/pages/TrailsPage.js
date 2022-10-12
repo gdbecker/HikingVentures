@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import TrailCard from '../components/TrailCard';
 import Footer from '../components/Footer';
 import axios from 'axios';
 
-function TrailsPage() {
+function TrailsPage({ user }) {
 
   const [trails, setTrails] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -65,6 +66,7 @@ function TrailsPage() {
               <div className="col-md-6">
                 <TrailCard
                   key={trail.id}
+                  user={user}
                   trail={trail}
                   reviews={reviews}
                 />
@@ -80,4 +82,8 @@ function TrailsPage() {
   }
 }
 
-export default TrailsPage;
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
+
+export default connect(mapStateToProps)(TrailsPage);

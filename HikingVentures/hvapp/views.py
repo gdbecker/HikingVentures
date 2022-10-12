@@ -187,8 +187,8 @@ def getUserFavorites(request):
 @api_view(['POST'])
 def createUserFavorite(request):
     data = request.data
-    user = UserAccount.objects.get(id=int(data['user']))
-    trail = Trail.objects.get(id=int(data['trail']))
+    user = UserAccount.objects.get(id=int(data['userID']))
+    trail = Trail.objects.get(id=int(data['trailID']))
 
     userfavorite = UserFavorite.objects.create(
         user=user,
@@ -196,6 +196,12 @@ def createUserFavorite(request):
     )
     serializer = UserFavoriteSerializer(userfavorite, many=False)
     return Response(serializer.data)
+
+@api_view(['DELETE'])
+def deleteUserFavorite(request, pk):
+    userfavorite = UserFavorite.objects.get(id=pk)
+    userfavorite.delete()
+    return Response('UserFavorite was deleted.')
 
 # History
 @api_view(['GET'])

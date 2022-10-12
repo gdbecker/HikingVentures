@@ -201,10 +201,40 @@ Light Gray: #E6E6E3*/
 }
 
 .trail-image {
+  background-size: cover;
   margin-bottom: 5%;
-  min-height: 35vh;
+  min-height: 45vh;
   text-align: center;
   width: 100%;
+}
+
+.add-favorite-button {
+  fill: white;
+  text-align: center;
+  align-content: center;
+}
+
+.favorite-button {
+  fill: red;
+}
+
+.trail-button {
+  min-width: 80px;
+  background-color: blue;
+  border: 0px;
+  text-align: center;
+  align-content: center;
+}
+
+.trail-page-link {
+    color: black;
+    text-decoration: none;
+}
+
+.trail-page-link:hover {
+    color:#78938A;
+    text-decoration:none;
+    cursor:pointer;
 }
 
 /* Trails Details Page */

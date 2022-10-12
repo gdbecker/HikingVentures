@@ -47,7 +47,7 @@ class ReviewSerializer(ModelSerializer):
 class UserFavoriteSerializer(ModelSerializer):
     class Meta:
         model = UserFavorite
-        fields = ('user', 'trail')
+        fields = ('id', 'user', 'trail')
     user = UserCreateSerializer(many=False)
     trail = TrailSerializer(many=False)
 

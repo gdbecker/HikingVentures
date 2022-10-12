@@ -23,6 +23,7 @@ urlpatterns = [
     path('reviews/create/', views.createReview, name='create-review'),
     path('userfavorites/', views.getUserFavorites, name='userfavorites'),
     path('userfavorites/create/', views.createUserFavorite, name='create-userfavorite'),
+    path('userfavorites/delete/<str:pk>/', views.deleteUserFavorite, name="delete-userfavorite"),
     path('history/', views.getHistory, name='history'),
     path('history/create/', views.createHistory, name='create-history'),
 ]
