@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import PageBanner from '../components/PageBanner';
+import Images from '../assets/imgIndex';
 import TrailCard from '../components/TrailCard';
 import Footer from '../components/Footer';
 import axios from 'axios';
@@ -71,9 +73,10 @@ function SavedPage({ user }) {
   if (isLoading === false) {
     return (
       <div id="saved-page">
-        <div className="header-photo-saved">
-          <h1 className="header-text-saved">saved trails</h1>
-        </div>
+        <PageBanner
+          pageName={'saved trails'}
+          img_url={Images.saved}
+        />
 
         <div className="container px-0">
           <div class="row g-2">

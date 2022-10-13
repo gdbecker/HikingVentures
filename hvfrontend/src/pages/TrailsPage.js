@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import PageBanner from '../components/PageBanner';
 import TrailCard from '../components/TrailCard';
 import Footer from '../components/Footer';
+import Images from '../assets/imgIndex';
 import axios from 'axios';
 
 function TrailsPage({ user }) {
@@ -71,9 +73,10 @@ function TrailsPage({ user }) {
   if (isLoading === false) {
     return (
       <div id="trails-page">
-        <div className="header-photo-trails">
-          <h1 className="header-text-trails">trails</h1>
-        </div>
+        <PageBanner
+          pageName={'trails'}
+          img_url={Images.trail}
+        />
 
         <div className="container px-0">
           <div class="row g-2">
@@ -81,23 +84,23 @@ function TrailsPage({ user }) {
             {trails.map((t, index) => {
               let found = false
               var i;
-                for (i = 0; i < userFavorites.length; i++) {
-                  if (userFavorites[i].trail.id === t.id) {
-                    found = true;
-                    return (
-                      <div className="col-md-6" key={index}>
-                        <TrailCard
-                          key={t.id}
-                          user={user}
-                          trail={t}
-                          reviews={reviews}
-                          ufID={userFavorites[i].id}
-                          isFavorite={true}
-                        />
-                      </div>
-                    )
-                  }
+              for (i = 0; i < userFavorites.length; i++) {
+                if (userFavorites[i].trail.id === t.id) {
+                  found = true;
+                  return (
+                    <div className="col-md-6" key={index}>
+                      <TrailCard
+                        key={t.id}
+                        user={user}
+                        trail={t}
+                        reviews={reviews}
+                        ufID={userFavorites[i].id}
+                        isFavorite={true}
+                      />
+                    </div>
+                  )
                 }
+              }
 
               if (found === false) {
                 return (

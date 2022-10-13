@@ -58,7 +58,16 @@ function AccountDetailsPage({ update_user, user }) {
 
   return (
     <div id="account-page">
-      <h1 className="account-header">account details</h1>
+      <div className="container px-0">
+        <div class="row g-2">
+          <div className="col-10">
+            <h1 className="account-header">account details</h1>
+          </div>
+          <div className="col-2">
+          </div>
+        </div>
+      </div>
+
 
       <div className="container mt-5 account-form">
         <div className="row">

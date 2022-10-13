@@ -82,12 +82,12 @@ function TrailBanner({ trail, user, ave, userFavorites }) {
     <div className="header-photo-trails-detail" style={divStyle}>
       <div className="container px-0">
         <div class="row g-2">
-          <div className="col-10">
+          <div className="col-11">
             <h1 className="header-text-trails-detail">{trail.name}</h1>
             <h4 className="h3-text-trails-detail">{trail.difficulty.rank} || {ave}</h4>
             <h4 className="h3-text-trails-detail">{trail.park.name} || {trail.park.city}, {trail.park.state.full_name}, {trail.park.state.country}</h4>
           </div>
-          <div className="col-2">
+          <div className="col-1">
             {isFavorite ? showFavorite() : showAddFavorite()}
           </div>
         </div>

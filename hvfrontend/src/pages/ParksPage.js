@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import PageBanner from '../components/PageBanner';
 import ParkCard from '../components/ParkCard';
 import Footer from '../components/Footer';
+import Images from '../assets/imgIndex';
 import axios from 'axios';
 
 function ParksPage() {
@@ -39,9 +41,10 @@ function ParksPage() {
   if (isLoading === false) {
     return (
       <div id="parks-page">
-        <div className="header-photo-parks">
-          <h1 className="header-text-parks">parks</h1>
-        </div>
+        <PageBanner
+          pageName={'parks'}
+          img_url={Images.park}
+        />
 
         <div className="container px-0">
           <div class="row g-2">

@@ -1,13 +1,6 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { ReactComponent as AddFavorite } from '../assets/add_favorite.svg';
-import { ReactComponent as Favorite } from '../assets/favorite.svg';
-import axios from 'axios';
+import React from 'react';
 
 function ParkBanner({ park }) {
-
-  useEffect(() => {
-
-  },[]);
 
   var divStyle = {
     backgroundImage: 'url(' + park.img_url + ')'

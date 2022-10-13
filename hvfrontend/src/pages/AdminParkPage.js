@@ -64,7 +64,15 @@ function AdminParkPage() {
 
   return (
     <div id="admin-page">
-      <h1 className="admin-header">add park</h1>
+      <div className="container px-0">
+        <div class="row g-2">
+          <div className="col-10">
+            <h1 className="admin-header">add park</h1>
+          </div>
+          <div className="col-2">
+          </div>
+        </div>
+      </div>
 
       <div className="container mt-5 account-form">
         <form onSubmit={e => onSubmit(e)}>
