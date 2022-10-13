@@ -1,8 +1,27 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import TrailCard from '../components/TrailCard';
+import axios from 'axios';
 import { ReactComponent as AddFavorite } from '../assets/add_favorite.svg';
 import { ReactComponent as Favorite } from '../assets/favorite.svg';
-import axios from 'axios';
+import TrailCard from '../components/TrailCard';
+
+let getRatingStars = (review) => {
+  switch(review.rating) {
+    case '1':
+      return '⭐'
+    case '2':
+      return '⭐⭐'
+    case '3':
+      return '⭐⭐⭐'
+    case '4':
+      return '⭐⭐⭐⭐'
+    case '5':
+      return '⭐⭐⭐⭐⭐'
+  }
+}
+
+let getTime = (review) => {
+  return new Date(review.date).toLocaleDateString()
+}
 
 function AccountReview({ user, review, userFavorites }) {
 
@@ -79,8 +98,8 @@ function AccountReview({ user, review, userFavorites }) {
   );
 
   return (
-    <div className="row">
-      <div className="col-md-6 trail-card">
+    <div className="row g-4">
+      <div className="col-lg-6 trail-card">
         <div className="p-3">
           <div className="trail-image" style={divStyle}>
             <div className="row">
@@ -95,9 +114,12 @@ function AccountReview({ user, review, userFavorites }) {
           <a href={`/trails/${review.trail?.id}`} className="trail-page-link">
             <h4>{review.trail?.name}</h4>
           </a>
+          <p>{review.trail.park?.name}</p>
         </div>
       </div>
       <div className="col-md-6 account-review-text">
+        <p>{getRatingStars(review)}</p>
+        <p>{getTime(review)}</p>
         <p>{review.body}</p>
       </div>
     </div>

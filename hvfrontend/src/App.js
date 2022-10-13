@@ -26,6 +26,7 @@ import AccountReviewsPage from './pages/AccountReviewsPage';
 import AccountHistoryPage from './pages/AccountHistoryPage';
 
 import AdminTrailPage from './pages/AdminTrailPage';
+import AdminTrailEditPage from './pages/AdminTrailEditPage';
 import AdminParkPage from './pages/AdminParkPage';
 
 import Layout from './hocs/Layout';
@@ -55,6 +56,7 @@ function App() {
               <Route path="/account/history/" element={<AccountHistoryPage />} />
 
               <Route path="/admin/trail" element={<AdminTrailPage />} />
+              <Route path="/admin/trail/edit/:id" element={<AdminTrailEditPage />} />
               <Route path="/admin/park" element={<AdminParkPage />} />
             </Routes>
           </div>

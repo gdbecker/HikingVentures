@@ -38,6 +38,7 @@ function Navigation({ logout, isAuthenticated }, props) {
             menuVariant=""
           >
             <NavDropdown.Item href="/admin/trail">add trail</NavDropdown.Item>
+            <NavDropdown.Item href="/admin/trail/edit/:id">edit trail</NavDropdown.Item>
             <NavDropdown.Item href="/admin/park">add park</NavDropdown.Item>
           </NavDropdown>
         </Nav>
