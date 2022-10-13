@@ -372,6 +372,21 @@ hr {
   width: 100%;
 }
 
+/* Parks Detail Page */
+.parks-content {
+  background-color: white;
+  padding-left: 5%;
+  text-align: center;
+  margin-bottom: 4%;
+}
+
+.parks-content-text {
+  color: black;
+  font-family: Martel;
+  margin: 2% 5% 2% 3%;
+  text-align: left;
+}
+
 /* Saved Page */
 #saved-page {
   background-color: #E6E6E3;

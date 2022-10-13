@@ -18,6 +18,7 @@ import LandingPage from './pages/LandingPage';
 import TrailsPage from './pages/TrailsPage';
 import TrailsDetailPage from './pages/TrailsDetailPage';
 import ParksPage from './pages/ParksPage';
+import ParksDetailPage from './pages/ParksDetailPage';
 import SavedPage from './pages/SavedPage';
 
 import AccountDetailsPage from './pages/AccountDetailsPage';
@@ -46,6 +47,7 @@ function App() {
               <Route path="/trails" element={<TrailsPage />} />
               <Route path="/trails/:id" element={<TrailsDetailPage />}/>
               <Route path="/parks" element={<ParksPage />} />
+              <Route path="/parks/:id" element={<ParksDetailPage />}/>
               <Route path="/saved/" element={<SavedPage />} />
 
               <Route path="/account/details/" element={<AccountDetailsPage />} />
