@@ -91,8 +91,15 @@ function TrailBanner({ trail, user, ave, userFavorites }) {
             {isFavorite ? showFavorite() : showAddFavorite()}
           </div>
         </div>
-      </div>
 
+        <div class="row g-2">
+          <div className="col-10">
+          </div>
+          <div className="col-2">
+            <a className="admin-page-link" href={`/admin/trail/edit/${trail.id}`}>admin: modify trail</a>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

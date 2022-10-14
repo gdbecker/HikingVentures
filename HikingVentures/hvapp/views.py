@@ -136,13 +136,9 @@ def createTrail(request):
 @api_view(['PATCH'])
 def updateTrail(request, pk):
     new_data = request.data
-    print(new_data)
     park = Park.objects.get(id=int(new_data['parkID']))
     difficulty = Difficulty.objects.get(id=int(new_data['difficultyID']))
     routetype = RouteType.objects.get(id=int(new_data['routetypeID']))
-    # new_data['park'] = park
-    # new_data['difficulty'] = difficulty
-    # new_data['routetype'] = routetype
 
     trail = Trail.objects.get(id=pk)
     print(trail)
@@ -158,11 +154,13 @@ def updateTrail(request, pk):
     trail.save()
 
     serializer = TrailSerializer(trail, many=False)
-
-    # print(serializer.is_valid(raise_exception=True))
-    # if serializer.is_valid():
-    #     serializer.save()
     return Response(serializer.data)
+
+@api_view(['DELETE'])
+def deleteTrail(request, pk):
+    trail = Trail.objects.get(id=pk)
+    trail.delete()
+    return Response('Trail was deleted.')
 
 # Image
 @api_view(['GET'])

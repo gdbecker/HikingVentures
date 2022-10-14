@@ -210,7 +210,7 @@ Light Gray: #E6E6E3*/
 
 .add-favorite-button {
   min-width: 50px;
-  fill: white;
+  fill: #F1DDBF;
   text-align: center;
   align-content: center;
 }
@@ -269,6 +269,17 @@ Light Gray: #E6E6E3*/
 
 .h3-text-trails-detail {
   font-family: Martel;
+}
+
+.admin-page-link {
+    color: white;
+    text-decoration: none;
+}
+
+.admin-page-link:hover {
+    color:#78938A;
+    text-decoration:none;
+    cursor:pointer;
 }
 
 .trails-content {

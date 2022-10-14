@@ -18,6 +18,7 @@ urlpatterns = [
     path('trails/create/', views.createTrail, name='create-trail'),
     path('trails/<str:pk>/', views.getTrail, name='trail'),
     path('trails/<str:pk>/update/', views.updateTrail, name="update-trail"),
+    path('trails/<str:pk>/delete/', views.deleteTrail, name="delete-trail"),
     path('images/', views.getImages, name='images'),
     path('images/create/', views.createImage, name='create-image'),
     path('reviews/', views.getReviews, name='reviews'),

@@ -1,13 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import Footer from '../components/Footer';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Footer from '../components/Footer';
 
 function AdminTrailEditPage() {
+
+  const {id} = useParams()
 
   const [trails, setTrails] = useState([]);
 
   useEffect(() => {
     getData();
+    if (id !== ':id') {
+      fetch(`http://127.0.0.1:8000/hvapp/trails/${id}/`, {
+        'method':'GET',
+        headers: {
+          'Content-Type':'application/json'
+        }
+      })
+      .then(resp => resp.json())
+      .then(resp => setFormData({
+        trailID: resp.id,
+        name: resp.name,
+        description: resp.description,
+        length: resp.length,
+        elevation_gain: resp.elevation_gain,
+        parkID: resp.park.id,
+        difficultyID: resp.difficulty.id,
+        routetypeID: resp.routetype.id,
+        map_url: resp.map_url,
+        img_url: resp.img_url
+      }))
+      .catch(error => console.log(error))
+    }
+
   },[]);
 
   async function getData() {
@@ -139,30 +165,29 @@ function AdminTrailEditPage() {
       },
       body: JSON.stringify({ name, description, length, elevation_gain, parkID, difficultyID, routetypeID, map_url, img_url })
     })
-    //setFormSent(true)
+    setFormSent(true)
   }
 
-  const onSubmit = async (e) => {
+  const onSubmitEdit = async (e) => {
     e.preventDefault();
     updateTrail()
+  };
 
-    // const config = {
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization': `JWT ${localStorage.getItem('access')}`,
-    //     'Accept': 'application/json'
-    //   }
-    // };
-    //
-    // const body = JSON.stringify({ name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url });
-    // console.log(body)
-    //
-    // try {
-    //   await axios.put(`${process.env.REACT_APP_API_URL}/hvapp/trails/${trailID}/update/`, body, config)
-    //   //setFormSent(true)
-    // } catch (err) {
-    //   console.log(err.response.data)
-    // }
+  let deleteTrail = async () => {
+    await fetch(`${process.env.REACT_APP_API_URL}/hvapp/trails/${trailID}/delete/`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+        'Accept': 'application/json'
+      },
+    })
+    setFormSent(true)
+  }
+
+  const onSubmitDelete = async (e) => {
+    e.preventDefault();
+    deleteTrail()
   };
 
   if (formSent) {
@@ -195,7 +220,7 @@ function AdminTrailEditPage() {
 
 
       <div className="container mt-5 account-form">
-        <form onSubmit={e => onSubmit(e)}>
+        <form>
           <div className="form-group">
             <select className="form-control" onChange={handleTrailChange} name="trailID" value={trailID}>
               <option defaultValue="⬇️ Choose a trail ⬇️"> -- Choose a trail -- </option>
@@ -289,7 +314,8 @@ function AdminTrailEditPage() {
               required
             />
           </div>
-          <button className="admin-button" type="submit">edit trail</button>
+          <button className="admin-button" type="submit" onClick={e => onSubmitEdit(e)}>edit trail</button>
+          <button className="admin-button" type="submit" onClick={e => onSubmitDelete(e)}>delete trail</button>
         </form>
       </div>
 

@@ -87,7 +87,7 @@ function SavedPage({ user }) {
               for (i = 0; i < userFavorites.length; i++) {
                 if (userFavorites[i].trail.id === t.id) {
                   return (
-                    <div className="col-md-6" key={index}>
+                    <div className="col-md-4" key={index}>
                       <TrailCard
                         key={t.id}
                         user={user}
