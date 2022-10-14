@@ -22,7 +22,6 @@ function AdminTrailEditPage() {
         await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/trails/`, config)
          .then(function (response) {
            setTrails(response.data)
-
          })
         .catch(function (error) {
            console.log(error);
@@ -36,18 +35,19 @@ function AdminTrailEditPage() {
 
   const [formSent, setFormSent] = useState(false);
   const [formData, setFormData] = useState({
+    trailID: '',
     name: '',
     description: '',
     length: '',
-    elevationGain: '',
-    park:'',
-    difficulty:'',
-    routeType:'',
+    elevation_gain: '',
+    parkID:'',
+    difficultyID:'',
+    routetypeID:'',
     map_url:'',
     img_url:''
   });
 
-  const { name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url } = formData;
+  const { trailID, name, description, length, elevation_gain, parkID, difficultyID, routetypeID, map_url, img_url } = formData;
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -60,45 +60,43 @@ function AdminTrailEditPage() {
     })
     .then(resp => resp.json())
     .then(resp => setFormData({
+      trailID: resp.id,
       name: resp.name,
       description: resp.description,
       length: resp.length,
-      elevationGain: resp.elevation_gain,
-      park: resp.park.id,
-      difficulty: resp.difficulty.id,
-      routeType: resp.routetype.id,
+      elevation_gain: resp.elevation_gain,
+      parkID: resp.park.id,
+      difficultyID: resp.difficulty.id,
+      routetypeID: resp.routetype.id,
       map_url: resp.map_url,
       img_url: resp.img_url
     }))
     .catch(error => console.log(error))
-
-    // setFormData({
-    //   name: chosenTrail.name,
-    //   description: chosenTrail.description,
-    //   length: chosenTrail.length,
-    //   elevationGain: chosenTrail.elevation_gain,
-    //   park: chosenTrail.park,
-    //   difficulty: chosenTrail.difficulty,
-    //   routeType: chosenTrail.routetype,
-    //   map_url: chosenTrail.map_url,
-    //   img_url: chosenTrail.img_url
-    // });
-
   };
-
-
 
   let [parkList, setParkList] = useState([]);
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/hvapp/parks/', {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
+    if (localStorage.getItem('access')) {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      try {
+        axios.get(`${process.env.REACT_APP_API_URL}/hvapp/parks/`, config)
+         .then(function (response) {
+           setParkList(response.data)
+
+         })
+        .catch(function (error) {
+           console.log(error);
+        });
+
+      } catch (err) {
+        console.log(err)
       }
-    })
-    .then(resp => resp.json())
-    .then(resp => setParkList(resp))
-    .catch(error => console.log(error))
+    }
   },[])
 
   let [difficultyList, setDifficultyList] = useState([]);
@@ -127,36 +125,56 @@ function AdminTrailEditPage() {
     .catch(error => console.log(error))
   },[])
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  let updateTrail = async () => {
+    var park = parkList.filter(p => {return p.id == parkID})[0]
+    var difficulty = difficultyList.filter(d => {return d.id == difficultyID})[0]
+    var routetype = routeTypeList.filter(r => {return r.id == routetypeID})[0]
 
-    const config = {
+    await fetch(`${process.env.REACT_APP_API_URL}/hvapp/trails/${trailID}/update/`, {
+      method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `JWT ${localStorage.getItem('access')}`,
         'Accept': 'application/json'
-      }
-    };
+      },
+      body: JSON.stringify({ name, description, length, elevation_gain, parkID, difficultyID, routetypeID, map_url, img_url })
+    })
+    //setFormSent(true)
+  }
 
-    const body = JSON.stringify({ name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url });
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    updateTrail()
 
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/trails/create/`, body, config)
-      setFormSent(true)
-    } catch (err) {
-      console.log(err.response.data)
-    }
+    // const config = {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': `JWT ${localStorage.getItem('access')}`,
+    //     'Accept': 'application/json'
+    //   }
+    // };
+    //
+    // const body = JSON.stringify({ name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url });
+    // console.log(body)
+    //
+    // try {
+    //   await axios.put(`${process.env.REACT_APP_API_URL}/hvapp/trails/${trailID}/update/`, body, config)
+    //   //setFormSent(true)
+    // } catch (err) {
+    //   console.log(err.response.data)
+    // }
   };
 
   if (formSent) {
     setFormData({
+      trailID: '',
       name: '',
       description: '',
       length: '',
-      elevationGain: '',
-      park:'',
-      difficulty:'',
-      routeType:'',
+      elevation_gain: '',
+      parkID:'',
+      difficultyID:'',
+      routetypeID:'',
       map_url:'',
       img_url:''
     });
@@ -179,10 +197,22 @@ function AdminTrailEditPage() {
       <div className="container mt-5 account-form">
         <form onSubmit={e => onSubmit(e)}>
           <div className="form-group">
-            <select className="form-control" onChange={handleTrailChange} name="park">
+            <select className="form-control" onChange={handleTrailChange} name="trailID" value={trailID}>
               <option defaultValue="⬇️ Choose a trail ⬇️"> -- Choose a trail -- </option>
               {trails.map((t, index) => <option key={index} value={t.id}>{t.name}</option>)}
             </select>
+          </div>
+
+          <div className="form-group">
+            <input
+              className='form-control'
+              type='text'
+              placeholder='trail name'
+              name='name'
+              defaultValue={name}
+              onChange={e => onChange(e)}
+              required
+            />
           </div>
 
           <div className="form-group">
@@ -213,26 +243,26 @@ function AdminTrailEditPage() {
               className='form-control'
               type='text'
               placeholder='elevation gain'
-              name='elevationGain'
-              defaultValue={elevationGain}
+              name='elevation_gain'
+              defaultValue={elevation_gain}
               onChange={e => onChange(e)}
               required
             />
           </div>
           <div className="form-group">
-            <select className="form-control" onChange={e => onChange(e)} name="park" value={park}>
+            <select className="form-control" onChange={e => onChange(e)} name="parkID" value={parkID}>
               <option defaultValue="⬇️ Choose a park ⬇️"> -- Choose a park -- </option>
               {parkList.map((p, index) => <option key={index} value={p.id}>{p.name}</option>)}
             </select>
           </div>
           <div className="form-group">
-            <select className="form-control" onChange={e => onChange(e)} name="difficulty" value={difficulty}>
+            <select className="form-control" onChange={e => onChange(e)} name="difficultyID" value={difficultyID}>
               <option defaultValue="⬇️ Choose a difficulty ⬇️"> -- Choose a difficulty -- </option>
               {difficultyList.map((d, index) => <option key={index} value={d.id}>{d.rank}</option>)}
             </select>
           </div>
           <div className="form-group">
-            <select className="form-control" onChange={e => onChange(e)} name="routeType" value={routeType}>
+            <select className="form-control" onChange={e => onChange(e)} name="routetypeID" value={routetypeID}>
               <option defaultValue="⬇️ Choose a route type ⬇️"> -- Choose a route type -- </option>
               {routeTypeList.map((r, index) => <option key={index} value={r.id}>{r.type}</option>)}
             </select>

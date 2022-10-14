@@ -129,7 +129,39 @@ def createTrail(request):
         map_url=data['map_url'],
         img_url=data['img_url']
     )
+
     serializer = TrailSerializer(trail, many=False)
+    return Response(serializer.data)
+
+@api_view(['PATCH'])
+def updateTrail(request, pk):
+    new_data = request.data
+    print(new_data)
+    park = Park.objects.get(id=int(new_data['parkID']))
+    difficulty = Difficulty.objects.get(id=int(new_data['difficultyID']))
+    routetype = RouteType.objects.get(id=int(new_data['routetypeID']))
+    # new_data['park'] = park
+    # new_data['difficulty'] = difficulty
+    # new_data['routetype'] = routetype
+
+    trail = Trail.objects.get(id=pk)
+    print(trail)
+    trail.name = new_data['name']
+    trail.description=new_data['description']
+    trail.length=new_data['length']
+    trail.elevation_gain=new_data['elevation_gain']
+    trail.park=park
+    trail.difficulty=difficulty
+    trail.routetype=routetype
+    trail.map_url=new_data['map_url']
+    trail.img_url=new_data['img_url']
+    trail.save()
+
+    serializer = TrailSerializer(trail, many=False)
+
+    # print(serializer.is_valid(raise_exception=True))
+    # if serializer.is_valid():
+    #     serializer.save()
     return Response(serializer.data)
 
 # Image
