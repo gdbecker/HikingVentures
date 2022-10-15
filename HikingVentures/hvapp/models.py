@@ -99,7 +99,7 @@ class UserFavorite(models.Model):
         unique_together = ('user', 'trail')
 
 class History(models.Model):
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateField()
     user = models.ForeignKey(User, related_name='user_history', on_delete=models.CASCADE)
     trail = models.ForeignKey(Trail, related_name='history', on_delete=models.CASCADE)
 

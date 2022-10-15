@@ -493,7 +493,25 @@ hr {
 }
 
 .admin-button:hover {
-  background-color: #92ba92 ;
+  background-color: #92ba92;
+}
+
+.admin-button-trail {
+  background-color: #F1DDBF;
+  border: 0px;
+  color: black;
+  font-size: 110%;
+  font-weight: bold;
+  margin: 6%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  top: 50%;
+  width: 100%;
+}
+
+.admin-button-trail:hover {
+  background-color: #92ba92;
 }
 
 textarea {

@@ -42,7 +42,7 @@ function TrailsDetailPage({ user }) {
       await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
        .then(function (response) {
          setUserFavorites(response.data)
-         
+
        })
       .catch(function (error) {
          console.log(error);
@@ -177,7 +177,6 @@ function TrailsDetailPage({ user }) {
   }
 
   if (isLoading === false) {
-    console.log(userFavorites)
     return (
       <div id="trails-detail-page">
 

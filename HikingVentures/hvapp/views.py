@@ -258,6 +258,8 @@ def deleteUserFavorite(request, pk):
 
 # History
 @api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
 def getHistory(request):
     history = History.objects.all().order_by('date')
     serializer = HistorySerializer(history, many=True)
@@ -266,10 +268,11 @@ def getHistory(request):
 @api_view(['POST'])
 def createHistory(request):
     data = request.data
-    user = UserAccount.objects.get(id=int(data['user']))
-    trail = Trail.objects.get(id=int(data['trail']))
+    user = UserAccount.objects.get(id=int(data['userID']))
+    trail = Trail.objects.get(id=int(data['trailID']))
 
     history = History.objects.create(
+        date=data['date']['date'],
         user=user,
         trail=trail
     )

@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 import { ReactComponent as AddFavorite } from '../assets/add_favorite.svg';
 import { ReactComponent as Favorite } from '../assets/favorite.svg';
-import TrailCard from '../components/TrailCard';
 
 let getRatingStars = (review) => {
   switch(review.rating) {
@@ -29,7 +28,6 @@ function AccountReview({ user, review, userFavorites }) {
   const [ufID, setufID] = useState(0);
 
   useEffect(() => {
-    console.log(review)
     userFavorites.forEach(function (u, index) {
       if (u.trail.id === review.trail.id) {
         setIsFavorite(true)
@@ -70,7 +68,7 @@ function AccountReview({ user, review, userFavorites }) {
     };
 
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/delete/${ufID}/`, config);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/${ufID}/delete/`, config);
       window.location.reload(false);
     } catch (err) {
       console.log(err)

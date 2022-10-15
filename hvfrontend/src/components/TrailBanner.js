@@ -7,9 +7,12 @@ function TrailBanner({ trail, user, ave, userFavorites }) {
 
   const [isFavorite, setIsFavorite] = useState(false);
   const [ufID, setufID] = useState('');
+  const [formSent, setFormSent] = useState(false);
+  const [date, setDate] = useState('');
+
+  const onChange = e => setDate({ [e.target.name]: e.target.value });
 
   useEffect(() => {
-    console.log(userFavorites)
     if (userFavorites.length > 0) {
       let filteredFavorites = userFavorites.filter(u => u.trail.id === trail.id)
       if (filteredFavorites.length > 0) {
@@ -58,6 +61,35 @@ function TrailBanner({ trail, user, ave, userFavorites }) {
     }
   }
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+        'Accept': 'application/json'
+      }
+    };
+
+    let userID = user.id
+    let trailID = trail.id
+
+    const body = JSON.stringify({ date, userID, trailID });
+
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/history/create/`, body, config)
+      setFormSent(true)
+    } catch (err) {
+      console.log(err)
+    }
+  };
+
+  if (formSent) {
+    setDate('');
+    window.location.reload(false);
+  }
+
   var divStyle = {
     backgroundImage: 'url(' + trail.img_url + ')'
   }
@@ -94,6 +126,28 @@ function TrailBanner({ trail, user, ave, userFavorites }) {
 
         <div class="row g-2">
           <div className="col-10">
+            <div className="container">
+              <div className="row">
+                <form onSubmit={e => onSubmit(e)}>
+                  <div className="input-group">
+                    <div className="form-group">
+                      <input
+                        className='form-control'
+                        type='date'
+                        name='date'
+                        defaultValue={date}
+                        onChange={e => onChange(e)}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <button className="admin-button-trail" type="submit">add to log</button>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
           </div>
           <div className="col-2">
             <a className="admin-page-link" href={`/admin/trail/modify/${trail.id}`}>admin: modify trail</a>
