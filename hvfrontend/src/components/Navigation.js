@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { ReactComponent as Logo } from '../assets/logo.svg';
 import { connect } from 'react-redux';
 import { logout } from '../actions/auth';
 
-function Navigation({ logout, isAuthenticated }, props) {
+function Navigation({ logout, isAuthenticated, user }, props) {
 
   const guestLinks = () => (
     <Fragment>
@@ -18,18 +18,8 @@ function Navigation({ logout, isAuthenticated }, props) {
     </Fragment>
   );
 
-  const authLinks = () => (
+  const authAdminLinks = () => (
     <Fragment>
-      <li className="nav-item">
-        <a className="nav-link" href="/trails">trails</a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href="/parks">parks</a>
-      </li>
-      <li className="nav-item">
-        <a className="nav-link" href='/saved/'>saved</a>
-      </li>
-
       <li>
         <Nav class="nav-item">
           <NavDropdown
@@ -44,6 +34,25 @@ function Navigation({ logout, isAuthenticated }, props) {
           </NavDropdown>
         </Nav>
       </li>
+    </Fragment>
+  );
+
+  const authLinks = () => (
+    <Fragment>
+      <li className="nav-item-other">
+        <p className="nav-link-other">hello, {user.first_name}!</p>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link" href="/trails">trails</a>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link" href="/parks">parks</a>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link" href='/saved/'>saved</a>
+      </li>
+
+      {user?.id == 2 ? authAdminLinks() : null}
 
       <li>
         <Nav class="nav-item">
@@ -61,38 +70,40 @@ function Navigation({ logout, isAuthenticated }, props) {
       </li>
     </Fragment>
   );
+  if (user) {
+    return (
+      <div id="navigation">
+        <nav className="navbar navbar-expand-lg navbar-dark">
+          <div className="container-fluid">
+            <a className="navbar-brand" href="/"><h4><Logo className="nav-logo"/>HikingVentures</h4></a>
 
-  return (
-    <div id="navigation">
-      <nav className="navbar navbar-expand-lg navbar-dark">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/"><h4><Logo className="nav-logo"/>HikingVentures</h4></a>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbar"
+              aria-controls="navbar"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
 
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbar"
-            aria-controls="navbar"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbar">
-            <ul className="navbar-nav ms-auto">
-              {isAuthenticated ? authLinks() : guestLinks()}
-            </ul>
+            <div className="collapse navbar-collapse" id="navbar">
+              <ul className="navbar-nav ms-auto">
+                {isAuthenticated ? authLinks() : guestLinks()}
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
-    </div>
-  )
+        </nav>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps, {logout})(Navigation);

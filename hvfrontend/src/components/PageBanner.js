@@ -11,7 +11,7 @@ function PageBanner({ pageName, img_url }) {
       <div className="container px-0">
         <div class="row g-2">
           <div className="col-10">
-            <h1 className="header-text-trails">{pageName}</h1>
+            <h1 className="header-text-trails-detail">{pageName}</h1>
           </div>
           <div className="col-2">
           </div>
