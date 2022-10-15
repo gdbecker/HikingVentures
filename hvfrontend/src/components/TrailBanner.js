@@ -14,7 +14,7 @@ function TrailBanner({ trail, user, ave, userFavorites }) {
 
   useEffect(() => {
     if (userFavorites.length > 0) {
-      let filteredFavorites = userFavorites.filter(u => u.trail.id === trail.id)
+      let filteredFavorites = userFavorites.filter(u => u.trail.id == trail?.id)
       if (filteredFavorites.length > 0) {
         setIsFavorite(true)
         setufID(userFavorites[0].id)

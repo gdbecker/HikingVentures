@@ -11,10 +11,10 @@ function AccountReviewsPage({ user }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getData();
-    setReviews(reviews.filter(r => r.user.id === user?.id));
-    setUserFavorites(userFavorites.filter(u => u.user.id === user?.id));
-  },[])
+    if (user) {
+      getData();
+    }
+  },[user])
 
   async function getData() {
     if (localStorage.getItem('access')) {
@@ -27,7 +27,9 @@ function AccountReviewsPage({ user }) {
       try {
         await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/reviews/`, config)
          .then(function (response) {
-           setReviews(response.data)
+           let reviewArray = response.data
+           let newArray = reviewArray.filter(r => r.user.id === user?.id)
+           setReviews(newArray)
          })
         .catch(function (error) {
            console.log(error);
@@ -40,7 +42,9 @@ function AccountReviewsPage({ user }) {
       try {
         await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
          .then(function (response) {
-           setUserFavorites(response.data)
+           let ufArray = response.data
+           let newArray = ufArray.filter(u => u.user.id == user?.id)
+           setUserFavorites(newArray)
            setIsLoading(false);
          })
         .catch(function (error) {

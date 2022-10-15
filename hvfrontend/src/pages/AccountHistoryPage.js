@@ -11,10 +11,10 @@ function AccountHistoryPage({ user }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getData();
-    setHistory(history.filter(h => h.user.id === user?.id));
-    setUserFavorites(userFavorites.filter(u => u.user.id === user?.id));
-  },[])
+    if (user) {
+      getData();
+    }
+  },[user])
 
   async function getData() {
     if (localStorage.getItem('access')) {
@@ -27,8 +27,9 @@ function AccountHistoryPage({ user }) {
       try {
         await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/history/`, config)
          .then(function (response) {
-           setHistory(response.data);
-
+           let historyArray = response.data
+           let newArray = historyArray.filter(h => h.user.id === user?.id)
+           setHistory(newArray)
          })
         .catch(function (error) {
            console.log(error);
@@ -41,7 +42,9 @@ function AccountHistoryPage({ user }) {
       try {
         await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
          .then(function (response) {
-           setUserFavorites(response.data)
+           let ufArray = response.data
+           let newArray = ufArray.filter(u => u.user.id == user?.id)
+           setUserFavorites(newArray)
            setIsLoading(false);
          })
         .catch(function (error) {
@@ -68,17 +71,19 @@ function AccountHistoryPage({ user }) {
         </div>
 
         <div className="container px-0">
-          {history.map((h, index) => {
-              return (
-                <div className="col-md-6">
-                  <AccountHistory
-                    user={user}
-                    history={h}
-                    userFavorites={userFavorites}
-                  />
-                </div>
-              )
-          })}
+          <div className="row">
+            {history.map((h, index) => {
+                return (
+                  <div className="col-md-6">
+                    <AccountHistory
+                      user={user}
+                      history={h}
+                      userFavorites={userFavorites}
+                    />
+                  </div>
+                )
+            })}
+          </div>
 
         </div>
         <Footer className="footer"/>

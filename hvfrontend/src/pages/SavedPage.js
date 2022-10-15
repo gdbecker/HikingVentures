@@ -14,9 +14,10 @@ function SavedPage({ user }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getData();
-    setUserFavorites(userFavorites.filter(u => u.user.id === user?.id));
-  },[])
+    if (user) {
+      getData();
+    }
+  },[user])
 
   async function getData() {
     if (localStorage.getItem('access')) {
@@ -57,7 +58,9 @@ function SavedPage({ user }) {
       try {
         await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
          .then(function (response) {
-           setUserFavorites(response.data)
+           let ufArray = response.data
+           let newArray = ufArray.filter(u => u.user.id == user?.id)
+           setUserFavorites(newArray)
            setIsLoading(false)
          })
         .catch(function (error) {

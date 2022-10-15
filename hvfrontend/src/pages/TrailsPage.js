@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import PageBanner from '../components/PageBanner';
 import TrailCard from '../components/TrailCard';
 import Footer from '../components/Footer';
@@ -14,9 +14,10 @@ function TrailsPage({ user }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getData();
-    setUserFavorites(userFavorites.filter(u => u.user.id === user?.id));
-  },[])
+    if (user) {
+      getData();
+    }
+  },[user])
 
   async function getData() {
     if (localStorage.getItem('access')) {
@@ -57,7 +58,9 @@ function TrailsPage({ user }) {
       try {
         await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
          .then(function (response) {
-           setUserFavorites(response.data)
+           let ufArray = response.data
+           let newArray = ufArray.filter(u => u.user.id == user?.id)
+           setUserFavorites(newArray)
            setIsLoading(false)
          })
         .catch(function (error) {
@@ -130,4 +133,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default connect(mapStateToProps)(TrailsPage);
+export default connect(mapStateToProps, { })(TrailsPage);

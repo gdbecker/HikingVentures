@@ -28,9 +28,10 @@ function TrailsDetailPage({ user }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getData();
-    setUserFavorites(userFavorites.filter(u => u.user.id === user?.id));
-  },[])
+    if (user) {
+      getData();
+    }
+  },[user])
 
   async function getData() {
     const config = {
@@ -42,7 +43,10 @@ function TrailsDetailPage({ user }) {
     try {
       await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
        .then(function (response) {
-         setUserFavorites(response.data)
+         let ufArray = response.data
+         let newArray = ufArray.filter(u => u.user.id == user?.id)
+         console.log(newArray)
+         setUserFavorites(newArray)
 
        })
       .catch(function (error) {
@@ -57,6 +61,7 @@ function TrailsDetailPage({ user }) {
       await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/trails/${id}/`, config)
        .then(function (response) {
          setTrail(response.data)
+
        })
       .catch(function (error) {
          console.log(error);
@@ -73,6 +78,7 @@ function TrailsDetailPage({ user }) {
          let newArray = reviewArray.filter(r => r.trail.id == id)
          setReviews(newArray)
          setAve(averageRating(newArray))
+
        })
       .catch(function (error) {
          console.log(error);
@@ -192,7 +198,6 @@ function TrailsDetailPage({ user }) {
   }
 
   if (isLoading === false) {
-    console.log(images)
     return (
       <div id="trails-detail-page">
 

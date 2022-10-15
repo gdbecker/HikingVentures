@@ -85,7 +85,7 @@ function AccountHistory({ user, history, userFavorites }) {
       <div className="col-md-3 account-history-text">
         <h3>{getTime(history)}</h3>
       </div>
-      <div className="col-lg-6 trail-card">
+      <div className="col-lg-9 trail-card">
         <div className="p-3">
           <div className="trail-image" style={divStyle}>
             <div className="row">

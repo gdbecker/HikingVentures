@@ -68,7 +68,6 @@ function AccountDetailsPage({ update_user, user }) {
         </div>
       </div>
 
-
       <div className="container mt-5 account-form">
         <div className="row">
           <div className="col-md-3">

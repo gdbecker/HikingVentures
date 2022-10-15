@@ -17,9 +17,10 @@ function ParksDetailPage({ user }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getData();
-    setUserFavorites(userFavorites.filter(u => u.user.id === user?.id));
-  },[])
+    if (user) {
+      getData();
+    }
+  },[user])
 
   async function getData() {
     const config = {
@@ -45,8 +46,9 @@ function ParksDetailPage({ user }) {
     try {
       await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
        .then(function (response) {
-         setUserFavorites(response.data)
-
+         let ufArray = response.data
+         let newArray = ufArray.filter(u => u.user.id == user?.id)
+         setUserFavorites(newArray)
        })
       .catch(function (error) {
          console.log(error);
@@ -84,8 +86,6 @@ function ParksDetailPage({ user }) {
     } catch (err) {
       console.log(err)
     }
-
-
   }
 
   if (isLoading === false) {
