@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { ReactComponent as Logo } from '../assets/logo.svg';
@@ -40,7 +40,7 @@ function Navigation({ logout, isAuthenticated, user }, props) {
   const authLinks = () => (
     <Fragment>
       <li className="nav-item-other">
-        <p className="nav-link-other">hello, {user.first_name}!</p>
+        <p className="nav-link-other">hello, {user?.first_name}!</p>
       </li>
       <li className="nav-item">
         <a className="nav-link" href="/trails">trails</a>
@@ -52,7 +52,7 @@ function Navigation({ logout, isAuthenticated, user }, props) {
         <a className="nav-link" href='/saved/'>saved</a>
       </li>
 
-      {user?.id == 2 ? authAdminLinks() : null}
+      {user?.is_superuser ? authAdminLinks() : null}
 
       <li>
         <Nav class="nav-item">
@@ -70,35 +70,34 @@ function Navigation({ logout, isAuthenticated, user }, props) {
       </li>
     </Fragment>
   );
-  if (user) {
-    return (
-      <div id="navigation">
-        <nav className="navbar navbar-expand-lg navbar-dark">
-          <div className="container-fluid">
-            <a className="navbar-brand" href="/"><h4><Logo className="nav-logo"/>HikingVentures</h4></a>
 
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbar"
-              aria-controls="navbar"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
+  return (
+    <div id="navigation">
+      <nav className="navbar navbar-expand-lg navbar-dark">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="/"><h4><Logo className="nav-logo"/>HikingVentures</h4></a>
 
-            <div className="collapse navbar-collapse" id="navbar">
-              <ul className="navbar-nav ms-auto">
-                {isAuthenticated ? authLinks() : guestLinks()}
-              </ul>
-            </div>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbar"
+            aria-controls="navbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="navbar">
+            <ul className="navbar-nav ms-auto">
+              {isAuthenticated ? authLinks() : guestLinks()}
+            </ul>
           </div>
-        </nav>
-      </div>
-    )
-  }
+        </div>
+      </nav>
+    </div>
+  )
 }
 
 const mapStateToProps = state => ({

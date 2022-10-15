@@ -150,7 +150,9 @@ function TrailBanner({ trail, user, ave, userFavorites }) {
             </div>
           </div>
           <div className="col-2">
-            <a className="admin-page-link" href={`/admin/trail/modify/${trail.id}`}>admin: modify trail</a>
+            {user?.is_superuser ? (
+              <a className="admin-page-link" href={`/admin/trail/modify/${trail.id}`}>admin: modify trail</a>
+            ) : null}
           </div>
         </div>
       </div>

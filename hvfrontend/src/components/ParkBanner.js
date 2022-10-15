@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ParkBanner({ park }) {
+function ParkBanner({ park, user }) {
 
   var divStyle = {
     backgroundImage: 'url(' + park.img_url + ')'
@@ -21,7 +21,9 @@ function ParkBanner({ park }) {
           <div className="col-10">
           </div>
           <div className="col-2">
-            <a className="admin-page-link" href={`/admin/park/modify/${park.id}`}>admin: modify park</a>
+            {user?.is_superuser ? (
+              <a className="admin-page-link" href={`/admin/park/modify/${park.id}`}>admin: modify park</a>
+            ) : null}
           </div>
         </div>
       </div>

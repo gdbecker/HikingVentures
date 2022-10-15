@@ -32,7 +32,11 @@ import AdminParkModifyPage from './pages/AdminParkModifyPage';
 
 import Layout from './hocs/Layout';
 
+import ProtectedRoute from './components/ProtectedRoute';
+
 function App() {
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+
   return (
     <Provider store={store}>
       <Router>

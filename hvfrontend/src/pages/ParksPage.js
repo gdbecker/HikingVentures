@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import PageBanner from '../components/PageBanner';
 import ParkCard from '../components/ParkCard';
 import Footer from '../components/Footer';
 import Images from '../assets/imgIndex';
 import axios from 'axios';
 
-function ParksPage() {
+function ParksPage({ user }) {
 
   const [parks, setParks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,6 +55,7 @@ function ParksPage() {
                   <ParkCard
                     key={park}
                     park={park}
+                    user={user}
                   />
                 </div>
               ))}
@@ -67,4 +69,8 @@ function ParksPage() {
   }
 }
 
-export default ParksPage;
+const mapStateToProps = state => ({
+  user: state.auth.user
+});
+
+export default connect(mapStateToProps, { })(ParksPage);

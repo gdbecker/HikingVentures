@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import PageBanner from '../components/PageBanner';
 import TrailCard from '../components/TrailCard';
 import Footer from '../components/Footer';
