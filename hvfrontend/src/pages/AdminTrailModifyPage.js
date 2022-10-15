@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '../components/Footer';
 
-function AdminTrailEditPage() {
+function AdminTrailModifyPage() {
 
   const {id} = useParams()
 
@@ -24,10 +24,10 @@ function AdminTrailEditPage() {
         name: resp.name,
         description: resp.description,
         length: resp.length,
-        elevation_gain: resp.elevation_gain,
-        parkID: resp.park.id,
-        difficultyID: resp.difficulty.id,
-        routetypeID: resp.routetype.id,
+        elevationGain: resp.elevation_gain,
+        park: resp.park.id,
+        difficulty: resp.difficulty.id,
+        routeType: resp.routetype.id,
         map_url: resp.map_url,
         img_url: resp.img_url
       }))
@@ -65,15 +65,15 @@ function AdminTrailEditPage() {
     name: '',
     description: '',
     length: '',
-    elevation_gain: '',
-    parkID:'',
-    difficultyID:'',
-    routetypeID:'',
+    elevationGain: '',
+    park:'',
+    difficulty:'',
+    routeType:'',
     map_url:'',
     img_url:''
   });
 
-  const { trailID, name, description, length, elevation_gain, parkID, difficultyID, routetypeID, map_url, img_url } = formData;
+  const { trailID, name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url } = formData;
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -90,10 +90,10 @@ function AdminTrailEditPage() {
       name: resp.name,
       description: resp.description,
       length: resp.length,
-      elevation_gain: resp.elevation_gain,
-      parkID: resp.park.id,
-      difficultyID: resp.difficulty.id,
-      routetypeID: resp.routetype.id,
+      elevationGain: resp.elevation_gain,
+      park: resp.park.id,
+      difficulty: resp.difficulty.id,
+      routeType: resp.routetype.id,
       map_url: resp.map_url,
       img_url: resp.img_url
     }))
@@ -152,10 +152,6 @@ function AdminTrailEditPage() {
   },[])
 
   let updateTrail = async () => {
-    var park = parkList.filter(p => {return p.id == parkID})[0]
-    var difficulty = difficultyList.filter(d => {return d.id == difficultyID})[0]
-    var routetype = routeTypeList.filter(r => {return r.id == routetypeID})[0]
-
     await fetch(`${process.env.REACT_APP_API_URL}/hvapp/trails/${trailID}/update/`, {
       method: "PATCH",
       headers: {
@@ -163,7 +159,7 @@ function AdminTrailEditPage() {
         'Authorization': `JWT ${localStorage.getItem('access')}`,
         'Accept': 'application/json'
       },
-      body: JSON.stringify({ name, description, length, elevation_gain, parkID, difficultyID, routetypeID, map_url, img_url })
+      body: JSON.stringify({ name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url })
     })
     setFormSent(true)
   }
@@ -196,10 +192,10 @@ function AdminTrailEditPage() {
       name: '',
       description: '',
       length: '',
-      elevation_gain: '',
-      parkID:'',
-      difficultyID:'',
-      routetypeID:'',
+      elevationGain: '',
+      park:'',
+      difficulty:'',
+      routeType:'',
       map_url:'',
       img_url:''
     });
@@ -211,7 +207,7 @@ function AdminTrailEditPage() {
       <div className="container px-0">
         <div class="row g-2">
           <div className="col-10">
-            <h1 className="admin-header">edit trail</h1>
+            <h1 className="admin-header">modify trail</h1>
           </div>
           <div className="col-2">
           </div>
@@ -268,26 +264,26 @@ function AdminTrailEditPage() {
               className='form-control'
               type='text'
               placeholder='elevation gain'
-              name='elevation_gain'
-              defaultValue={elevation_gain}
+              name='elevationGain'
+              defaultValue={elevationGain}
               onChange={e => onChange(e)}
               required
             />
           </div>
           <div className="form-group">
-            <select className="form-control" onChange={e => onChange(e)} name="parkID" value={parkID}>
+            <select className="form-control" onChange={e => onChange(e)} name="park" value={park}>
               <option defaultValue="⬇️ Choose a park ⬇️"> -- Choose a park -- </option>
               {parkList.map((p, index) => <option key={index} value={p.id}>{p.name}</option>)}
             </select>
           </div>
           <div className="form-group">
-            <select className="form-control" onChange={e => onChange(e)} name="difficultyID" value={difficultyID}>
+            <select className="form-control" onChange={e => onChange(e)} name="difficulty" value={difficulty}>
               <option defaultValue="⬇️ Choose a difficulty ⬇️"> -- Choose a difficulty -- </option>
               {difficultyList.map((d, index) => <option key={index} value={d.id}>{d.rank}</option>)}
             </select>
           </div>
           <div className="form-group">
-            <select className="form-control" onChange={e => onChange(e)} name="routetypeID" value={routetypeID}>
+            <select className="form-control" onChange={e => onChange(e)} name="routeType" value={routeType}>
               <option defaultValue="⬇️ Choose a route type ⬇️"> -- Choose a route type -- </option>
               {routeTypeList.map((r, index) => <option key={index} value={r.id}>{r.type}</option>)}
             </select>
@@ -324,4 +320,4 @@ function AdminTrailEditPage() {
   )
 }
 
-export default AdminTrailEditPage;
+export default AdminTrailModifyPage;

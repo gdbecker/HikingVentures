@@ -94,6 +94,28 @@ def createPark(request):
     serializer = ParkSerializer(park, many=False)
     return Response(serializer.data)
 
+@api_view(['PATCH'])
+def updatePark(request, pk):
+    new_data = request.data
+    state = State.objects.get(id=int(new_data['state']))
+
+    park = Park.objects.get(id=pk)
+    park.name = new_data['name']
+    park.description=new_data['description']
+    park.city=new_data['city']
+    park.state=state
+    park.img_url=new_data['img_url']
+    park.save()
+
+    serializer = ParkSerializer(park, many=False)
+    return Response(serializer.data)
+
+@api_view(['DELETE'])
+def deletePark(request, pk):
+    park = Park.objects.get(id=pk)
+    park.delete()
+    return Response('Park was deleted.')
+
 # Trail
 @api_view(['GET'])
 @authentication_classes([])
@@ -136,16 +158,15 @@ def createTrail(request):
 @api_view(['PATCH'])
 def updateTrail(request, pk):
     new_data = request.data
-    park = Park.objects.get(id=int(new_data['parkID']))
-    difficulty = Difficulty.objects.get(id=int(new_data['difficultyID']))
-    routetype = RouteType.objects.get(id=int(new_data['routetypeID']))
+    park = Park.objects.get(id=int(new_data['park']))
+    difficulty = Difficulty.objects.get(id=int(new_data['difficulty']))
+    routetype = RouteType.objects.get(id=int(new_data['routeType']))
 
     trail = Trail.objects.get(id=pk)
-    print(trail)
     trail.name = new_data['name']
     trail.description=new_data['description']
     trail.length=new_data['length']
-    trail.elevation_gain=new_data['elevation_gain']
+    trail.elevation_gain=new_data['elevationGain']
     trail.park=park
     trail.difficulty=difficulty
     trail.routetype=routetype
