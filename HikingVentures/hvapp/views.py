@@ -198,7 +198,7 @@ def createImage(request):
     trail = Trail.objects.get(id=int(data['trail']))
 
     image = Image.objects.create(
-        img_url=data['img_url'],
+        img_url=data['new_img'],
         trail=trail
     )
     serializer = ImageSerializer(image, many=False)

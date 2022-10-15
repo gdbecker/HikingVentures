@@ -115,7 +115,7 @@ function ParksDetailPage({ user }) {
                   if (userFavorites[i].trail.id === t.id) {
                     found = true;
                     return (
-                      <div className="col-md-6" key={index}>
+                      <div className="col-md-4" key={index}>
                         <TrailCard
                           key={t.id}
                           user={user}
@@ -131,7 +131,7 @@ function ParksDetailPage({ user }) {
 
               if (found === false) {
                 return (
-                  <div className="col-md-6" key={index}>
+                  <div className="col-md-4" key={index}>
                     <TrailCard
                       key={t.id}
                       user={user}

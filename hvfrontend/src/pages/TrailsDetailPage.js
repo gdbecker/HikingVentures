@@ -24,6 +24,7 @@ function TrailsDetailPage({ user }) {
   const [reviews, setReviews] = useState([]);
   const [ave, setAve] = useState(null);
   const [userFavorites, setUserFavorites] = useState([]);
+  const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -72,7 +73,6 @@ function TrailsDetailPage({ user }) {
          let newArray = reviewArray.filter(r => r.trail.id == id)
          setReviews(newArray)
          setAve(averageRating(newArray))
-         setIsLoading(false)
        })
       .catch(function (error) {
          console.log(error);
@@ -82,6 +82,21 @@ function TrailsDetailPage({ user }) {
       console.log(err)
     }
 
+    try {
+      await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/images/`, config)
+       .then(function (response) {
+         let imageArray = response.data
+         let newArray = imageArray.filter(i => i.trail.id == id)
+         setImages(newArray)
+         setIsLoading(false)
+       })
+      .catch(function (error) {
+         console.log(error);
+      });
+
+    } catch (err) {
+      console.log(err)
+    }
 
   }
 
@@ -177,6 +192,7 @@ function TrailsDetailPage({ user }) {
   }
 
   if (isLoading === false) {
+    console.log(images)
     return (
       <div id="trails-detail-page">
 
@@ -240,35 +256,17 @@ function TrailsDetailPage({ user }) {
 
               <h4 className="trails-content-text">photos</h4>
               <div className="row g-1">
-                <div className="col-lg-6">
-                  <div className="p-3">
-                    <img className="trail-image" src={require(`../assets/bg-trails.jpg`)} alt="trail"/>
+
+                {images?.map((i, index) => (
+                  <div className="col-lg-6">
+                    <div className="p-3">
+                      <img className="trail-detail-image" key={index} src={`${i.img_url}`} alt="trail"/>
+                    </div>
                   </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="p-3">
-                    <img className="trail-image" src={require(`../assets/bg-trails.jpg`)} alt="trail"/>
-                  </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="p-3">
-                    <img className="trail-image" src={require(`../assets/bg-trails.jpg`)} alt="trail"/>
-                  </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="p-3">
-                    <img className="trail-image" src={require(`../assets/bg-trails.jpg`)} alt="trail"/>
-                  </div>
-                </div>
-                <div className="col-lg-6">
-                  <div className="p-3">
-                    <img className="trail-image" src={require(`../assets/bg-trails.jpg`)} alt="trail"/>
-                  </div>
-                </div>
+                ))}
+
               </div>
-
             </div>
-
           </div>
         </div>
 

@@ -14,10 +14,11 @@ function AdminTrailPage() {
     difficulty:'',
     routeType:'',
     map_url:'',
-    img_url:''
+    img_url:'',
+    images:''
   });
 
-  const { name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url } = formData;
+  const { name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url, images } = formData;
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -62,6 +63,7 @@ function AdminTrailPage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    let trail = 0
 
     const config = {
       headers: {
@@ -75,9 +77,29 @@ function AdminTrailPage() {
 
     try {
       await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/trails/create/`, body, config)
-      setFormSent(true)
+      .then((response) => {
+        trail = response.data['id']
+        console.log(trail)
+      })
     } catch (err) {
       console.log(err.response.data)
+    }
+
+    if (images !== '') {
+      let imageList = images.split(",");
+
+      for (var i = 0; i<imageList.length; i++) {
+        let new_img = imageList[i]
+        const imageBody = JSON.stringify({ trail, new_img });
+
+        try {
+          await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/images/create/`, imageBody, config)
+
+        } catch (err) {
+          console.log(err.response.data)
+        }
+      }
+      setFormSent(true)
     }
   };
 
@@ -91,7 +113,8 @@ function AdminTrailPage() {
       difficulty:'',
       routeType:'',
       map_url:'',
-      img_url:''
+      img_url:'',
+      images: ''
     });
     window.location.reload(false);
   }
@@ -203,6 +226,18 @@ function AdminTrailPage() {
                   onChange={e => onChange(e)}
                   required
                 />
+              </div>
+              <div className="form-group">
+                <textarea
+                  className='form-control'
+                  type='text'
+                  placeholder='additional images (separate by comma)'
+                  name='images'
+                  defaultValue={images}
+                  onChange={e => onChange(e)}
+                  required
+                >
+                </textarea>
               </div>
               <button className="admin-button" type="submit">add trail</button>
             </form>

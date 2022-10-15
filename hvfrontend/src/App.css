@@ -341,6 +341,10 @@ hr {
   margin-bottom: 5%;
 }
 
+.trail-detail-image {
+  width: 100%;
+}
+
 /* Parks Page */
 #parks-page {
   background-color: #E6E6E3;
