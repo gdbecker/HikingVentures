@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Footer from '../components/Footer';
@@ -159,6 +159,12 @@ function AdminParkModifyPage() {
     window.location.reload(false);
   }
 
+  const showImage = () => (
+    <Fragment>
+      <img className="admin-form-photo" src={`${img_url}`} alt="park image"/>
+    </Fragment>
+  );
+
   return (
     <div id="admin-page">
       <div className="container px-0">
@@ -173,69 +179,77 @@ function AdminParkModifyPage() {
 
 
       <div className="container mt-5 account-form">
-        <form>
-          <div className="form-group">
-            <select className="form-control" onChange={handleParkChange} name="parkID" value={parkID}>
-              <option defaultValue="⬇️ Choose a park ⬇️"> -- Choose a park -- </option>
-              {parks.map((p, index) => <option key={index} value={p.id}>{p.name}</option>)}
-            </select>
-          </div>
+        <div className="row">
+          <div className="col-9">
+            <form>
+              <div className="form-group">
+                <select className="form-control" onChange={handleParkChange} name="parkID" value={parkID}>
+                  <option defaultValue="⬇️ Choose a park ⬇️"> -- Choose a park -- </option>
+                  {parks.map((p, index) => <option key={index} value={p.id}>{p.name}</option>)}
+                </select>
+              </div>
 
-          <div className="form-group">
-            <input
-              className='form-control'
-              type='text'
-              placeholder='park name'
-              name='name'
-              defaultValue={name}
-              onChange={e => onChange(e)}
-              required
-            />
-          </div>
+              <div className="form-group">
+                <input
+                  className='form-control'
+                  type='text'
+                  placeholder='park name'
+                  name='name'
+                  defaultValue={name}
+                  onChange={e => onChange(e)}
+                  required
+                />
+              </div>
 
-          <div className="form-group">
-            <textarea
-              className='form-control'
-              type='text'
-              placeholder='trail description'
-              name='description'
-              defaultValue={description}
-              onChange={e => onChange(e)}
-              required
-            >
-            </textarea>
+              <div className="form-group">
+                <textarea
+                  className='form-control'
+                  type='text'
+                  placeholder='trail description'
+                  name='description'
+                  defaultValue={description}
+                  onChange={e => onChange(e)}
+                  required
+                >
+                </textarea>
+              </div>
+              <div className="form-group">
+                <input
+                  className='form-control'
+                  type='text'
+                  placeholder='city'
+                  name='city'
+                  defaultValue={city}
+                  onChange={e => onChange(e)}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <select className="form-control" onChange={e => onChange(e)} name="state" value={state}>
+                  <option defaultValue="⬇️ Choose a park ⬇️"> -- Choose a park -- </option>
+                  {stateList.map((s, index) => <option key={index} value={s.id}>{s.full_name}</option>)}
+                </select>
+              </div>
+              <div className="form-group">
+                <input
+                  className='form-control'
+                  type='text'
+                  placeholder='main image url'
+                  name='img_url'
+                  defaultValue={img_url}
+                  onChange={e => onChange(e)}
+                  required
+                />
+              </div>
+              <button className="admin-button" type="submit" onClick={e => onSubmitEdit(e)}>edit park</button>
+              <button className="admin-button" type="submit" onClick={e => onSubmitDelete(e)}>delete park</button>
+            </form>
           </div>
-          <div className="form-group">
-            <input
-              className='form-control'
-              type='text'
-              placeholder='city'
-              name='city'
-              defaultValue={city}
-              onChange={e => onChange(e)}
-              required
-            />
+          <div className="col-3">
+            {img_url !== '' ? showImage() : null}
           </div>
-          <div className="form-group">
-            <select className="form-control" onChange={e => onChange(e)} name="state" value={state}>
-              <option defaultValue="⬇️ Choose a park ⬇️"> -- Choose a park -- </option>
-              {stateList.map((s, index) => <option key={index} value={s.id}>{s.full_name}</option>)}
-            </select>
-          </div>
-          <div className="form-group">
-            <input
-              className='form-control'
-              type='text'
-              placeholder='main image url'
-              name='img_url'
-              defaultValue={img_url}
-              onChange={e => onChange(e)}
-              required
-            />
-          </div>
-          <button className="admin-button" type="submit" onClick={e => onSubmitEdit(e)}>edit park</button>
-          <button className="admin-button" type="submit" onClick={e => onSubmitDelete(e)}>delete park</button>
-        </form>
+        </div>
+
       </div>
 
       <Footer className="footer"/>

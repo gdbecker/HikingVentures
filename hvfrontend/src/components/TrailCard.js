@@ -54,7 +54,7 @@ function TrailCard({ user, trail, reviews, ufID, isFavorite }) {
     };
 
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/delete/${ufID}/`, config);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/${ufID}/delete/`, config);
       window.location.reload(false);
     } catch (err) {
       console.log(err)
