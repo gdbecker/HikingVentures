@@ -317,8 +317,8 @@ hr {
 .map-image {
   margin-bottom: 5%;
   min-height: 35vh;
-  text-align: center;
-  width: 90%;
+  /* text-align: center; */
+  width: 97%;
 }
 
 .user-image-crop {

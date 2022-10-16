@@ -1,4 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import parse from "html-react-parser";
+import DOMPurify from 'isomorphic-dompurify';
 import { useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import TrailBanner from '../components/TrailBanner';
@@ -197,7 +199,11 @@ function TrailsDetailPage({ user }) {
     window.location.reload(false);
   }
 
+  // <img className="map-image" src={`${trail?.map_url}`} alt="map"/>
+
   if (isLoading === false) {
+    const clean_map_url = DOMPurify.sanitize(trail.map_url);
+    console.log(trail.map_url)
     return (
       <div id="trails-detail-page">
 
@@ -255,7 +261,9 @@ function TrailsDetailPage({ user }) {
 
             </div>
             <div className="col-md-6 mx-auto">
-              <img className="map-image" src={`${trail?.map_url}`} alt="map"/>
+              <div className="map-image">
+                {parse(trail.map_url)}
+              </div>
 
               <hr/>
 

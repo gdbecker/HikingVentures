@@ -104,6 +104,7 @@ function AdminTrailModifyPage() {
     })
     .then(resp => resp.json())
     .then(resp => setFormData({
+      ...formData,
       trailID: resp.id,
       name: resp.name,
       description: resp.description,
@@ -203,11 +204,13 @@ function AdminTrailModifyPage() {
       body: JSON.stringify({ name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url })
     })
 
-    if (images !== '') {
-      let imageList = images.split(";");
+    console.log(images)
 
-      for (var i = 0; i<imageList.length; i++) {
-        let new_img = imageList[i]
+    if (images !== '') {
+      let newImageList = images.split(";");
+
+      for (var i = 0; i<newImageList.length; i++) {
+        let new_img = newImageList[i]
         let trail = trailID
 
         await fetch(`${process.env.REACT_APP_API_URL}/hvapp/images/create/`, {
