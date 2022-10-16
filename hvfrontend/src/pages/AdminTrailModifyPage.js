@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { ReactComponent as Delete } from '../assets/trash.svg';
 import Footer from '../components/Footer';
 
 function AdminTrailModifyPage() {
@@ -8,6 +9,7 @@ function AdminTrailModifyPage() {
   const {id} = useParams()
 
   const [trails, setTrails] = useState([]);
+  const [imageList, setImageList] = useState([]);
 
   useEffect(() => {
     getData();
@@ -20,6 +22,7 @@ function AdminTrailModifyPage() {
       })
       .then(resp => resp.json())
       .then(resp => setFormData({
+        ...formData,
         trailID: resp.id,
         name: resp.name,
         description: resp.description,
@@ -31,6 +34,20 @@ function AdminTrailModifyPage() {
         map_url: resp.map_url,
         img_url: resp.img_url
       }))
+      .catch(error => console.log(error))
+
+      fetch(`http://127.0.0.1:8000/hvapp/images/`, {
+        'method':'GET',
+        headers: {
+          'Content-Type':'application/json'
+        }
+      })
+      .then(resp => resp.json())
+      .then(resp => resp.filter(i => i.trail.id == id))
+      .then(resp => setImageList({
+        resp
+      }))
+      .then(resp => console.log(resp))
       .catch(error => console.log(error))
     }
 
@@ -70,10 +87,11 @@ function AdminTrailModifyPage() {
     difficulty:'',
     routeType:'',
     map_url:'',
-    img_url:''
+    img_url:'',
+    images:''
   });
 
-  const { trailID, name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url } = formData;
+  const { trailID, name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url, images } = formData;
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -98,7 +116,30 @@ function AdminTrailModifyPage() {
       img_url: resp.img_url
     }))
     .catch(error => console.log(error))
+
+    fetch(`http://127.0.0.1:8000/hvapp/images/`, {
+      'method':'GET',
+      headers: {
+        'Content-Type':'application/json'
+      }
+    })
+    .then(resp => resp.json())
+    .then(resp => setImageList(resp.filter(i => i.trail.id == event.target.value)))
+    .catch(error => console.log(error))
+
   };
+
+  let deleteImage = (imageID) => {
+    fetch(`${process.env.REACT_APP_API_URL}/hvapp/images/${imageID}/delete/`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+        'Accept': 'application/json'
+      },
+    })
+    setImageList(imageList.filter(i => i.id != imageID))
+  }
 
   let [parkList, setParkList] = useState([]);
   useEffect(() => {
@@ -161,7 +202,30 @@ function AdminTrailModifyPage() {
       },
       body: JSON.stringify({ name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url })
     })
-    setFormSent(true)
+
+    if (images !== '') {
+      let imageList = images.split(";");
+
+      for (var i = 0; i<imageList.length; i++) {
+        let new_img = imageList[i]
+        let trail = trailID
+
+        await fetch(`${process.env.REACT_APP_API_URL}/hvapp/images/create/`, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `JWT ${localStorage.getItem('access')}`,
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ trail, new_img })
+        })
+
+      }
+      setFormSent(true)
+    } else {
+      setFormSent(true)
+    }
+
   }
 
   const onSubmitEdit = async (e) => {
@@ -197,7 +261,8 @@ function AdminTrailModifyPage() {
       difficulty:'',
       routeType:'',
       map_url:'',
-      img_url:''
+      img_url:'',
+      images: ''
     });
     window.location.reload(false);
   }
@@ -317,6 +382,39 @@ function AdminTrailModifyPage() {
                   onChange={e => onChange(e)}
                   required
                 />
+              </div>
+              <div className="form-group">
+                <textarea
+                  className='form-control'
+                  type='text'
+                  placeholder='add additional images (separate by ;)'
+                  name='images'
+                  defaultValue={images}
+                  onChange={e => onChange(e)}
+                >
+                </textarea>
+              </div>
+              <div className="form-group">
+                <div className="container px-0">
+                  <div className="row g-2">
+                    {imageList.map((i, index) => {
+                        return (
+                          <div className="col-6" key={index}>
+                            <div className="row g-2">
+                              <div className="col-10">
+                                <img className="admin-form-photo" src={`${i.img_url}`} alt="trail-image"/>
+                              </div>
+                              <div className="col-2">
+                                <button onClick={() => deleteImage(i.id)} className="admin-trash-button" title="delete image">
+                                  <Delete className="delete-button"/>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                    })}
+                  </div>
+                </div>
               </div>
               <button className="admin-button" type="submit" onClick={e => onSubmitEdit(e)}>edit trail</button>
               <button className="admin-button" type="submit" onClick={e => onSubmitDelete(e)}>delete trail</button>

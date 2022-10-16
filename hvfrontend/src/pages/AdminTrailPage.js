@@ -86,7 +86,7 @@ function AdminTrailPage() {
     }
 
     if (images !== '') {
-      let imageList = images.split(",");
+      let imageList = images.split(";");
 
       for (var i = 0; i<imageList.length; i++) {
         let new_img = imageList[i]
@@ -231,7 +231,7 @@ function AdminTrailPage() {
                 <textarea
                   className='form-control'
                   type='text'
-                  placeholder='additional images (separate by comma)'
+                  placeholder='additional images (separate by ;)'
                   name='images'
                   defaultValue={images}
                   onChange={e => onChange(e)}

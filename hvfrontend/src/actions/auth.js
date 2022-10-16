@@ -64,7 +64,6 @@ export const load_user = () => async dispatch => {
 
       try {
         const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/users/me/`, config);
-        console.log(res.data)
 
         dispatch({
           type: LOAD_USER_SUCCESS,

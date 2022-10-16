@@ -524,9 +524,26 @@ textarea {
 }
 
 .admin-form-photo {
-  min-height: 35vh;
+  /* max-height: 35vh; */
   text-align: center;
   width: 100%;
+  margin: 10px;
+}
+
+.admin-trash-button {
+  min-width: 25px;
+  background-color: transparent;
+  border: 0px;
+  text-align: center;
+  align-content: center;
+  margin-top: 10px;
+}
+
+.delete-button {
+  min-width: 25px;
+  fill: #F1DDBF;
+  text-align: center;
+  align-content: center;
 }
 
 /* Navigation */

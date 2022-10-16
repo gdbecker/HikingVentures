@@ -204,6 +204,12 @@ def createImage(request):
     serializer = ImageSerializer(image, many=False)
     return Response(serializer.data)
 
+@api_view(['DELETE'])
+def deleteImage(request, pk):
+    image = Image.objects.get(id=pk)
+    image.delete()
+    return Response('Image was deleted.')
+
 # Review
 @api_view(['GET'])
 @authentication_classes([])

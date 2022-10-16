@@ -23,6 +23,7 @@ urlpatterns = [
     path('trails/<str:pk>/delete/', views.deleteTrail, name="delete-trail"),
     path('images/', views.getImages, name='images'),
     path('images/create/', views.createImage, name='create-image'),
+    path('images/<str:pk>/delete/', views.deleteImage, name="delete-image"),
     path('reviews/', views.getReviews, name='reviews'),
     path('reviews/create/', views.createReview, name='create-review'),
     path('userfavorites/', views.getUserFavorites, name='userfavorites'),
