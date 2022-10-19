@@ -241,6 +241,11 @@ Light Gray: #E6E6E3*/
     cursor:pointer;
 }
 
+.filter-form {
+  margin-top: -20px;
+  margin-bottom: 25px;
+}
+
 /* Trails Details Page */
 #trails-detail-page {
   background-color: #E6E6E3;
