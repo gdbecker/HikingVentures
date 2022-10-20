@@ -28,8 +28,6 @@ function TrailsPage({ user }) {
   const onChange = e => {
     setFilterForm({ ...filterForm, [e.target.name]: e.target.value });
     let trailsToFilter = trails
-    console.log(e.target.name)
-    console.log(e.target.value)
 
     for (const [key, value] of Object.entries(filterForm)) {
       if (key === 'park') {
@@ -195,42 +193,42 @@ function TrailsPage({ user }) {
         <div className="container px-0 filter-form">
           <div className="row g-2">
             <div className="col-md-12">
-                <form>
-                  <div className="row g-2">
-                    <div className="col-md-3">
-                      <div className="form-group">
-                        <select className="form-control" onChange={(e) => onChange(e)} name="park">
-                          <option value="all"> -- park -- </option>
-                          {parkFilter.map((p, index) => <option key={index} value={p.id}>{p.name}</option>)}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-md-3">
-                      <div className="form-group">
-                        <select className="form-control" onChange={(e) => onChange(e)} name="state">
-                          <option value="all"> -- state -- </option>
-                          {stateFilter.map((s, index) => <option key={index} value={s.id}>{s.full_name}</option>)}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-md-3">
-                      <div className="form-group">
-                        <select className="form-control" onChange={(e) => onChange(e)} name="difficulty">
-                          <option value="all"> -- difficulty -- </option>
-                          {difficultyFilter.map((d, index) => <option key={index} value={d.id}>{d.rank}</option>)}
-                        </select>
-                      </div>
-                    </div>
-                    <div className="col-md-3">
-                      <div className="form-group">
-                        <select className="form-control" onChange={(e) => onChange(e)} name="routeType">
-                          <option value="all"> -- route type -- </option>
-                          {routeTypeFilter.map((r, index) => <option key={index} value={r.id}>{r.type}</option>)}
-                        </select>
-                      </div>
+              <form>
+                <div className="row g-2">
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <select className="form-control" onChange={(e) => onChange(e)} name="park">
+                        <option value="all"> -- park -- </option>
+                        {parkFilter.map((p, index) => <option key={index} value={p.id}>{p.name}</option>)}
+                      </select>
                     </div>
                   </div>
-                </form>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <select className="form-control" onChange={(e) => onChange(e)} name="state">
+                        <option value="all"> -- state -- </option>
+                        {stateFilter.map((s, index) => <option key={index} value={s.id}>{s.full_name}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <select className="form-control" onChange={(e) => onChange(e)} name="difficulty">
+                        <option value="all"> -- difficulty -- </option>
+                        {difficultyFilter.map((d, index) => <option key={index} value={d.id}>{d.rank}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-3">
+                    <div className="form-group">
+                      <select className="form-control" onChange={(e) => onChange(e)} name="routeType">
+                        <option value="all"> -- route type -- </option>
+                        {routeTypeFilter.map((r, index) => <option key={index} value={r.id}>{r.type}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>

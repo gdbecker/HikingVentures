@@ -13,7 +13,7 @@ class Difficulty(models.Model):
         return self.rank
 
     class Meta:
-        ordering = ['rank']
+        ordering = ['id']
 
 class RouteType(models.Model):
     type = models.CharField(max_length=30, unique=True)
