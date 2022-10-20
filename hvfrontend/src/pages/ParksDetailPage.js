@@ -89,12 +89,12 @@ function ParksDetailPage({ user }) {
   }
 
   if (isLoading === false) {
-    console.log(userFavorites)
     return (
       <div id="trails-detail-page">
 
         <ParkBanner
           park={park}
+          user={user}
         />
 
         <div className="container px-0 parks-content">

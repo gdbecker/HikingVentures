@@ -112,8 +112,6 @@ function TrailsPage({ user }) {
     }
   }
 
-  const { park, state, difficulty, routeType } = filterForm;
-
   useEffect(() => {
     if (user) {
       getData();

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import APIService from '../components/APIService';
 import AccountHistory from '../components/AccountHistory';
 import Footer from '../components/Footer';
 
@@ -18,42 +18,24 @@ function AccountHistoryPage({ user }) {
 
   async function getData() {
     if (localStorage.getItem('access')) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
+      APIService.GetHistory()
+      .then(response => response.json())
+      .then(response => {
+        let historyArray = response
+        let newArray = historyArray.filter(h => h.user.id === user?.id)
+        setHistory(newArray)
+      })
+      .catch(error => console.log(error))
 
-      try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/history/`, config)
-         .then(function (response) {
-           let historyArray = response.data
-           let newArray = historyArray.filter(h => h.user.id === user?.id)
-           setHistory(newArray)
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
-
-      try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
-         .then(function (response) {
-           let ufArray = response.data
-           let newArray = ufArray.filter(u => u.user.id == user?.id)
-           setUserFavorites(newArray)
-           setIsLoading(false);
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
+      APIService.GetUserFavorites()
+      .then(response => response.json())
+      .then(response => {
+        let ufArray = response
+        let newArray = ufArray.filter(u => u.user.id == user?.id)
+        setUserFavorites(newArray)
+        setIsLoading(false);
+      })
+      .catch(error => console.log(error))
     }
   }
 

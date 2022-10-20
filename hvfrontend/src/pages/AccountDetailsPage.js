@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { update_user } from '../actions/auth';
+import APIService from '../components/APIService';
 import Footer from '../components/Footer';
 
 function AccountDetailsPage({ update_user, user }) {
@@ -23,12 +24,7 @@ function AccountDetailsPage({ update_user, user }) {
   let [stateList, setStateList] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/hvapp/states/', {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
+    APIService.GetStates()
     .then(resp => resp.json())
     .then(resp => setStateList(resp))
     .catch(error => console.log(error))

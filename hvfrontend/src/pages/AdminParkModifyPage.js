@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import APIService from '../components/APIService';
 import Footer from '../components/Footer';
 
 function AdminParkModifyPage() {
@@ -12,12 +12,7 @@ function AdminParkModifyPage() {
   useEffect(() => {
     getData();
     if (id !== ':id') {
-      fetch(`http://127.0.0.1:8000/hvapp/parks/${id}/`, {
-        'method':'GET',
-        headers: {
-          'Content-Type':'application/json'
-        }
-      })
+      APIService.GetPark(id)
       .then(resp => resp.json())
       .then(resp => setFormData({
         parkID: resp.id,
@@ -34,24 +29,12 @@ function AdminParkModifyPage() {
 
   async function getData() {
     if (localStorage.getItem('access')) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/parks/`, config)
-         .then(function (response) {
-           setParks(response.data)
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
+      APIService.GetParks()
+      .then(resp => resp.json())
+      .then(resp => {
+        setParks(resp)
+      })
+      .catch(error => console.log(error))
     }
   }
 
@@ -70,12 +53,7 @@ function AdminParkModifyPage() {
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleParkChange = event => {
-    fetch(`http://127.0.0.1:8000/hvapp/parks/${event.target.value}/`, {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
+    APIService.GetPark(event.target.value)
     .then(resp => resp.json())
     .then(resp => setFormData({
       parkID: resp.id,
@@ -91,37 +69,18 @@ function AdminParkModifyPage() {
   let [stateList, setStateList] = useState([]);
   useEffect(() => {
     if (localStorage.getItem('access')) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      try {
-        axios.get(`${process.env.REACT_APP_API_URL}/hvapp/states/`, config)
-         .then(function (response) {
-           setStateList(response.data)
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
+      APIService.GetStates()
+      .then(resp => resp.json())
+      .then(resp => {
+        setStateList(resp)
+      })
+      .catch(error => console.log(error))
     }
   },[])
 
   let updatePark = async () => {
-    await fetch(`${process.env.REACT_APP_API_URL}/hvapp/parks/${parkID}/update/`, {
-      method: "PATCH",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({ name, description, city, state, img_url })
-    })
+    const body = JSON.stringify({ name, description, city, state, img_url })
+    APIService.UpdatePark(parkID, body)
     setFormSent(true)
   }
 
@@ -131,14 +90,7 @@ function AdminParkModifyPage() {
   };
 
   let deletePark = async () => {
-    await fetch(`${process.env.REACT_APP_API_URL}/hvapp/parks/${parkID}/delete/`, {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      },
-    })
+    APIService.DeletePark(parkID)
     setFormSent(true)
   }
 
@@ -184,7 +136,7 @@ function AdminParkModifyPage() {
             <form>
               <div className="form-group">
                 <select className="form-control" onChange={handleParkChange} name="parkID" value={parkID}>
-                  <option defaultValue="⬇️ Choose a park ⬇️"> -- Choose a park -- </option>
+                  <option defaultValue="⬇️ choose a park ⬇️"> -- choose a park -- </option>
                   {parks.map((p, index) => <option key={index} value={p.id}>{p.name}</option>)}
                 </select>
               </div>
@@ -226,7 +178,7 @@ function AdminParkModifyPage() {
               </div>
               <div className="form-group">
                 <select className="form-control" onChange={e => onChange(e)} name="state" value={state}>
-                  <option defaultValue="⬇️ Choose a park ⬇️"> -- Choose a park -- </option>
+                  <option defaultValue="⬇️ choose a state ⬇️"> -- choose a state -- </option>
                   {stateList.map((s, index) => <option key={index} value={s.id}>{s.full_name}</option>)}
                 </select>
               </div>

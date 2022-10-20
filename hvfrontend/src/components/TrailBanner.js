@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import APIService from './APIService';
 import { ReactComponent as AddFavorite } from '../assets/add_favorite.svg';
 import { ReactComponent as Favorite } from '../assets/favorite.svg';
-import axios from 'axios';
 
 function TrailBanner({ trail, user, ave, userFavorites }) {
 
@@ -23,66 +23,37 @@ function TrailBanner({ trail, user, ave, userFavorites }) {
   },[]);
 
   let addFavoriteClick = async () => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      }
-    };
-
     let userID = user.id
     let trailID = trail.id
-
     const body = JSON.stringify({ userID, trailID });
 
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/create/`, body, config);
+    APIService.AddUserFavorite(body)
+    .then(() => {
       window.location.reload(false);
-    } catch (err) {
-      console.log(err)
-    }
+    })
+    .catch(error => console.log(error))
   }
 
   let removeFavoriteClick = async () => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      }
-    };
-
-    try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/${ufID}/delete/`, config);
+    APIService.DeleteUserFavorite(ufID)
+    .then(() => {
       window.location.reload(false);
-    } catch (err) {
-      console.log(err)
-    }
+    })
+    .catch(error => console.log(error))
   }
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      }
-    };
-
     let userID = user.id
     let trailID = trail.id
-
     const body = JSON.stringify({ date, userID, trailID });
 
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/history/create/`, body, config)
-      setFormSent(true)
-    } catch (err) {
-      console.log(err)
-    }
+    APIService.AddHistory(body)
+    .then(() => {
+      setFormSent(true);
+    })
+    .catch(error => console.log(error))
   };
 
   if (formSent) {

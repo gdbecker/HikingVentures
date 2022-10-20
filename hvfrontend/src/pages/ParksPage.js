@@ -47,8 +47,10 @@ function ParksPage({ user }) {
   const { state } = filterForm;
 
   useEffect(() => {
-    getData();
-  },[])
+    if (user) {
+      getData();
+    }
+  },[user])
 
   async function getData() {
     if (localStorage.getItem('access')) {
@@ -130,4 +132,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default connect(mapStateToProps, { })(ParksPage);
+export default connect(mapStateToProps)(ParksPage);

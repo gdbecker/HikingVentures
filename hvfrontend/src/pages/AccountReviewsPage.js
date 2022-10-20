@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+import APIService from '../components/APIService';
 import AccountReview from '../components/AccountReview';
 import Footer from '../components/Footer';
 
@@ -18,42 +18,24 @@ function AccountReviewsPage({ user }) {
 
   async function getData() {
     if (localStorage.getItem('access')) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
+      APIService.GetReviews()
+      .then(response => response.json())
+      .then(response => {
+        let reviewArray = response
+        let newArray = reviewArray.filter(r => r.user.id === user?.id)
+        setReviews(newArray)
+      })
+      .catch(error => console.log(error))
 
-      try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/reviews/`, config)
-         .then(function (response) {
-           let reviewArray = response.data
-           let newArray = reviewArray.filter(r => r.user.id === user?.id)
-           setReviews(newArray)
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
-
-      try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
-         .then(function (response) {
-           let ufArray = response.data
-           let newArray = ufArray.filter(u => u.user.id == user?.id)
-           setUserFavorites(newArray)
-           setIsLoading(false);
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
+      APIService.GetUserFavorites()
+      .then(response => response.json())
+      .then(response => {
+        let ufArray = response
+        let newArray = ufArray.filter(u => u.user.id == user?.id)
+        setUserFavorites(newArray)
+        setIsLoading(false);
+      })
+      .catch(error => console.log(error))
     }
   }
 

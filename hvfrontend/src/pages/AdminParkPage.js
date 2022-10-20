@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import APIService from '../components/APIService';
 import Footer from '../components/Footer';
-import axios from 'axios';
 
 function AdminParkPage() {
 
@@ -20,36 +20,23 @@ function AdminParkPage() {
   let [stateList, setStateList] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/hvapp/states/', {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
+    APIService.GetStates()
     .then(resp => resp.json())
-    .then(resp => setStateList(resp))
+    .then(resp => {
+      setStateList(resp)
+    })
     .catch(error => console.log(error))
   },[])
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      }
-    };
-
     const body = JSON.stringify({ name, description, city, state, img_url });
-
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/parks/create/`, body, config)
-      setFormSent(true)
-    } catch (err) {
-      console.log(err)
-    }
+    APIService.AddPark(body)
+    .then(() => {
+      setFormSent(true);
+    })
+    .catch(error => console.log(error))
   };
 
   if (formSent) {

@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import APIService from './APIService';
 import { ReactComponent as AddFavorite } from '../assets/add_favorite.svg';
 import { ReactComponent as Favorite } from '../assets/favorite.svg';
-import axios from 'axios';
 
 let averageRating = (reviews) => {
   if (reviews.length === 0) {
@@ -23,42 +23,23 @@ function TrailCard({ user, trail, reviews, ufID, isFavorite }) {
   },[])
 
   let addFavoriteClick = async () => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      }
-    };
-
     let userID = user.id
     let trailID = trail.id
-
     const body = JSON.stringify({ userID, trailID });
 
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/create/`, body, config);
+    APIService.AddUserFavorite(body)
+    .then(() => {
       window.location.reload(false);
-    } catch (err) {
-      console.log(err)
-    }
+    })
+    .catch(error => console.log(error))
   }
 
   let removeFavoriteClick = async () => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      }
-    };
-
-    try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/${ufID}/delete/`, config);
+    APIService.DeleteUserFavorite(ufID)
+    .then(() => {
       window.location.reload(false);
-    } catch (err) {
-      console.log(err)
-    }
+    })
+    .catch(error => console.log(error))
   }
 
   var divStyle = {
