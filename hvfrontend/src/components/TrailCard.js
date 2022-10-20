@@ -85,11 +85,15 @@ function TrailCard({ user, trail, reviews, ufID, isFavorite }) {
     <div className="trail-card">
       <div className="p-3">
         <div className="trail-image" style={divStyle}>
-          <div className="row">
-            <div className="col-10">
-            </div>
-            <div className="col-2">
-              {isFavorite ? showFavorite() : showAddFavorite()}
+          <div className="container px-0">
+            <div className="p-3">
+              <div className="row g-2">
+                <div className="col-10">
+                </div>
+                <div className="col-2">
+                  {isFavorite ? showFavorite() : showAddFavorite()}
+                </div>
+              </div>
             </div>
           </div>
         </div>
