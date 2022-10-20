@@ -3,6 +3,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { register } from '../actions/auth';
 import Footer from '../components/Footer';
+import APIService from '../components/APIService';
 
 const RegisterPage = ({ register, isAuthenticated }) => {
   const [accountCreated, setAccountCreated] = useState(false);
@@ -22,12 +23,7 @@ const RegisterPage = ({ register, isAuthenticated }) => {
   let [stateList, setStateList] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/hvapp/states/', {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
+    APIService.GetStates()
     .then(resp => resp.json())
     .then(resp => setStateList(resp))
     .catch(error => console.log(error))

@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import APIService from '../components/APIService';
 import { ReactComponent as Delete } from '../assets/trash.svg';
 import Footer from '../components/Footer';
 
@@ -14,12 +14,7 @@ function AdminTrailModifyPage() {
   useEffect(() => {
     getData();
     if (id !== ':id') {
-      fetch(`http://127.0.0.1:8000/hvapp/trails/${id}/`, {
-        'method':'GET',
-        headers: {
-          'Content-Type':'application/json'
-        }
-      })
+      APIService.GetTrail(id)
       .then(resp => resp.json())
       .then(resp => setFormData({
         ...formData,
@@ -36,18 +31,9 @@ function AdminTrailModifyPage() {
       }))
       .catch(error => console.log(error))
 
-      fetch(`http://127.0.0.1:8000/hvapp/images/`, {
-        'method':'GET',
-        headers: {
-          'Content-Type':'application/json'
-        }
-      })
+      APIService.GetImages()
       .then(resp => resp.json())
-      .then(resp => resp.filter(i => i.trail.id == id))
-      .then(resp => setImageList({
-        resp
-      }))
-      .then(resp => console.log(resp))
+      .then(resp => setImageList(resp.filter(i => i.trail.id == id)))
       .catch(error => console.log(error))
     }
 
@@ -55,24 +41,12 @@ function AdminTrailModifyPage() {
 
   async function getData() {
     if (localStorage.getItem('access')) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/trails/`, config)
-         .then(function (response) {
-           setTrails(response.data)
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
+      APIService.GetTrails()
+      .then(resp => resp.json())
+      .then(resp => {
+        setTrails(resp)
+      })
+      .catch(error => console.log(error))
     }
   }
 
@@ -96,12 +70,7 @@ function AdminTrailModifyPage() {
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleTrailChange = event => {
-    fetch(`http://127.0.0.1:8000/hvapp/trails/${event.target.value}/`, {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
+    APIService.GetTrail(event.target.value)
     .then(resp => resp.json())
     .then(resp => setFormData({
       ...formData,
@@ -118,12 +87,7 @@ function AdminTrailModifyPage() {
     }))
     .catch(error => console.log(error))
 
-    fetch(`http://127.0.0.1:8000/hvapp/images/`, {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
+    APIService.GetImages()
     .then(resp => resp.json())
     .then(resp => setImageList(resp.filter(i => i.trail.id == event.target.value)))
     .catch(error => console.log(error))
@@ -131,50 +95,25 @@ function AdminTrailModifyPage() {
   };
 
   let deleteImage = (imageID) => {
-    fetch(`${process.env.REACT_APP_API_URL}/hvapp/images/${imageID}/delete/`, {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      },
-    })
+    APIService.DeleteImage(imageID)
     setImageList(imageList.filter(i => i.id != imageID))
   }
 
   let [parkList, setParkList] = useState([]);
   useEffect(() => {
     if (localStorage.getItem('access')) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      try {
-        axios.get(`${process.env.REACT_APP_API_URL}/hvapp/parks/`, config)
-         .then(function (response) {
-           setParkList(response.data)
-
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
+      APIService.GetParks()
+      .then(resp => resp.json())
+      .then(resp => {
+        setParkList(resp)
+      })
+      .catch(error => console.log(error))
     }
   },[])
 
   let [difficultyList, setDifficultyList] = useState([]);
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/hvapp/difficulties/', {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
+    APIService.GetDifficulty()
     .then(resp => resp.json())
     .then(resp => setDifficultyList(resp))
     .catch(error => console.log(error))
@@ -182,29 +121,15 @@ function AdminTrailModifyPage() {
 
   let [routeTypeList, setRouteTypeList] = useState([]);
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/hvapp/routetypes/', {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
+    APIService.GetRouteTypes()
     .then(resp => resp.json())
     .then(resp => setRouteTypeList(resp))
     .catch(error => console.log(error))
   },[])
 
   let updateTrail = async () => {
-    await fetch(`${process.env.REACT_APP_API_URL}/hvapp/trails/${trailID}/update/`, {
-      method: "PATCH",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({ name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url })
-    })
-
-    console.log(images)
+    const body = JSON.stringify({ name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url })
+    APIService.UpdateTrail(trailID, body)
 
     if (images !== '') {
       let newImageList = images.split(";");
@@ -212,17 +137,8 @@ function AdminTrailModifyPage() {
       for (var i = 0; i<newImageList.length; i++) {
         let new_img = newImageList[i]
         let trail = trailID
-
-        await fetch(`${process.env.REACT_APP_API_URL}/hvapp/images/create/`, {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `JWT ${localStorage.getItem('access')}`,
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({ trail, new_img })
-        })
-
+        const body = JSON.stringify({ trail, new_img })
+        APIService.AddImage(body)
       }
       setFormSent(true)
     } else {
@@ -237,14 +153,7 @@ function AdminTrailModifyPage() {
   };
 
   let deleteTrail = async () => {
-    await fetch(`${process.env.REACT_APP_API_URL}/hvapp/trails/${trailID}/delete/`, {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      },
-    })
+    APIService.DeleteTrail(trailID)
     setFormSent(true)
   }
 

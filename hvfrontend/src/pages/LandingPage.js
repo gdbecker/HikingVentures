@@ -19,25 +19,10 @@ function LandingPage() {
           <div className="col-md-3">
           </div>
         </div>
-
       </div>
-
       <Footer className="footer-landing"/>
     </div>
   )
 }
 
 export default LandingPage;
-
-// <div className="row">
-//   <div className="col-md-4">
-//   </div>
-//   <div className="col-md-2">
-//     <a href="/login"><button className="account-button">login</button></a>
-//   </div>
-//   <div className="col-md-2">
-//     <a href="/register"><button className="account-button">register</button></a>
-//   </div>
-//   <div className="col-md-4">
-//   </div>
-// </div>

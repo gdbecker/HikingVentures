@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ParkBanner from '../components/ParkBanner';
 import TrailCard from '../components/TrailCard';
 import Footer from '../components/Footer';
-import axios from 'axios';
+import APIService from '../components/APIService';
 
 function ParksDetailPage({ user }) {
 
@@ -23,69 +23,44 @@ function ParksDetailPage({ user }) {
   },[user])
 
   async function getData() {
+    APIService.GetPark(id)
+    .then(resp => resp.json())
+    .then(resp => {
+      setPark(resp)
+    })
+    .catch(error => console.log(error))
+
     const config = {
       headers: {
         'Content-Type': 'application/json'
       }
     };
 
-    try {
-      await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/parks/${id}/`, config)
-       .then(function (response) {
-         setPark(response.data)
+    APIService.GetUserFavorites()
+    .then(response => response.json())
+    .then(response => {
+      let ufArray = response
+      let newArray = ufArray.filter(u => u.user.id == user?.id)
+      setUserFavorites(newArray)
+    })
+    .catch(error => console.log(error))
 
-       })
-      .catch(function (error) {
-         console.log(error);
-      });
+    APIService.GetTrails()
+    .then(response => response.json())
+    .then(response => {
+      let rawTrails = response;
+      let filteredTrails = rawTrails.filter(t => t.park.id == id);
+      setTrails(filteredTrails);
+    })
+    .catch(error => console.log(error))
 
-    } catch (err) {
-      console.log(err)
-    }
-
-    try {
-      await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
-       .then(function (response) {
-         let ufArray = response.data
-         let newArray = ufArray.filter(u => u.user.id == user?.id)
-         setUserFavorites(newArray)
-       })
-      .catch(function (error) {
-         console.log(error);
-      });
-
-    } catch (err) {
-      console.log(err)
-    }
-
-    try {
-      await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/trails/`, config)
-       .then(function (response) {
-         let rawTrails = response.data;
-         let filteredTrails = rawTrails.filter(t => t.park.id == id);
-         setTrails(filteredTrails);
-       })
-      .catch(function (error) {
-         console.log(error);
-      });
-
-    } catch (err) {
-      console.log(err)
-    }
-
-    try {
-      await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/reviews/`, config)
-       .then(function (response) {
-         setReviews(response.data)
-         setIsLoading(false)
-       })
-      .catch(function (error) {
-         console.log(error);
-      });
-
-    } catch (err) {
-      console.log(err)
-    }
+    APIService.GetReviews()
+    .then(response => response.json())
+    .then(response => {
+      setReviews(response)
+      setIsLoading(false)
+    })
+    .catch(error => console.log(error))
   }
 
   if (isLoading === false) {

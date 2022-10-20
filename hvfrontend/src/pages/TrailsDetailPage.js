@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import TrailBanner from '../components/TrailBanner';
 import TrailReview from '../components/TrailReview';
 import Footer from '../components/Footer';
-import axios from 'axios';
+import APIService from '../components/APIService';
 
 let averageRating = (reviews) => {
   if (reviews.length === 0) {
@@ -36,76 +36,41 @@ function TrailsDetailPage({ user }) {
   },[user])
 
   async function getData() {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
+    APIService.GetUserFavorites()
+    .then(response => response.json())
+    .then(response => {
+      let ufArray = response
+      let newArray = ufArray.filter(u => u.user.id == user?.id)
+      setUserFavorites(newArray)
+    })
+    .catch(error => console.log(error))
 
-    try {
-      await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
-       .then(function (response) {
-         let ufArray = response.data
-         let newArray = ufArray.filter(u => u.user.id == user?.id)
-         console.log(newArray)
-         setUserFavorites(newArray)
+    APIService.GetTrail(id)
+    .then(resp => resp.json())
+    .then(resp => {
+      setTrail(resp)
+    })
+    .catch(error => console.log(error))
 
-       })
-      .catch(function (error) {
-         console.log(error);
-      });
+    APIService.GetReviews()
+    .then(response => response.json())
+    .then(response => {
+      let reviewArray = response
+      let newArray = reviewArray.filter(r => r.trail.id == id)
+      setReviews(newArray)
+      setAve(averageRating(newArray))
+    })
+    .catch(error => console.log(error))
 
-    } catch (err) {
-      console.log(err)
-    }
-
-    try {
-      await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/trails/${id}/`, config)
-       .then(function (response) {
-         setTrail(response.data)
-
-       })
-      .catch(function (error) {
-         console.log(error);
-      });
-
-    } catch (err) {
-      console.log(err)
-    }
-
-    try {
-      await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/reviews/`, config)
-       .then(function (response) {
-         let reviewArray = response.data
-         let newArray = reviewArray.filter(r => r.trail.id == id)
-         setReviews(newArray)
-         setAve(averageRating(newArray))
-
-       })
-      .catch(function (error) {
-         console.log(error);
-      });
-
-    } catch (err) {
-      console.log(err)
-    }
-
-    try {
-      await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/images/`, config)
-       .then(function (response) {
-         let imageArray = response.data
-         let newArray = imageArray.filter(i => i.trail.id == id)
-         setImages(newArray)
-         setIsLoading(false)
-       })
-      .catch(function (error) {
-         console.log(error);
-      });
-
-    } catch (err) {
-      console.log(err)
-    }
-
+    APIService.GetImages()
+    .then(response => response.json())
+    .then(response => {
+      let imageArray = response
+      let newArray = imageArray.filter(i => i.trail.id == id)
+      setImages(newArray)
+      setIsLoading(false)
+    })
+    .catch(error => console.log(error))
   }
 
   const formVisible = () => (
@@ -172,23 +137,13 @@ function TrailsDetailPage({ user }) {
   const onSubmit = async (e) => {
     e.preventDefault();
     const currentUser = user.id
-
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      }
-    };
-
     const body = JSON.stringify({ rating, text, currentUser, id });
 
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/reviews/create/`, body, config)
-      setFormSent(true)
-    } catch (err) {
-      console.log(err)
-    }
+    APIService.AddReview(body)
+    .then(() => {
+      setFormSent(true);
+    })
+    .catch(error => console.log(error))
   };
 
   if (formSent) {

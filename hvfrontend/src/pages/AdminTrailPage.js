@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import APIService from '../components/APIService';
 import Footer from '../components/Footer';
-import axios from 'axios';
 
 function AdminTrailPage() {
 
@@ -24,12 +24,7 @@ function AdminTrailPage() {
 
   let [parkList, setParkList] = useState([]);
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/hvapp/parks/', {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
+    APIService.GetParks()
     .then(resp => resp.json())
     .then(resp => setParkList(resp))
     .catch(error => console.log(error))
@@ -37,12 +32,7 @@ function AdminTrailPage() {
 
   let [difficultyList, setDifficultyList] = useState([]);
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/hvapp/difficulties/', {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
+    APIService.GetDifficulty()
     .then(resp => resp.json())
     .then(resp => setDifficultyList(resp))
     .catch(error => console.log(error))
@@ -50,12 +40,7 @@ function AdminTrailPage() {
 
   let [routeTypeList, setRouteTypeList] = useState([]);
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/hvapp/routetypes/', {
-      'method':'GET',
-      headers: {
-        'Content-Type':'application/json'
-      }
-    })
+    APIService.GetRouteTypes()
     .then(resp => resp.json())
     .then(resp => setRouteTypeList(resp))
     .catch(error => console.log(error))
@@ -65,25 +50,13 @@ function AdminTrailPage() {
     e.preventDefault();
     let trail = 0
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `JWT ${localStorage.getItem('access')}`,
-        'Accept': 'application/json'
-      }
-    };
-
     const body = JSON.stringify({ name, description, length, elevationGain, park, difficulty, routeType, map_url, img_url });
-
-    try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/trails/create/`, body, config)
-      .then((response) => {
-        trail = response.data['id']
-        console.log(trail)
-      })
-    } catch (err) {
-      console.log(err.response.data)
-    }
+    APIService.AddTrail(body)
+    .then((response) => {
+      trail = response.data['id']
+      console.log(trail)
+    })
+    .catch(error => console.log(error))
 
     if (images !== '') {
       let imageList = images.split(";");
@@ -91,16 +64,10 @@ function AdminTrailPage() {
       for (var i = 0; i<imageList.length; i++) {
         let new_img = imageList[i]
         const imageBody = JSON.stringify({ trail, new_img });
-
-        try {
-          await axios.post(`${process.env.REACT_APP_API_URL}/hvapp/images/create/`, imageBody, config)
-
-        } catch (err) {
-          console.log(err.response.data)
-        }
+        APIService.AddImage(imageBody)
       }
-      setFormSent(true)
     }
+    setFormSent(true)
   };
 
   if (formSent) {
@@ -235,7 +202,6 @@ function AdminTrailPage() {
                   name='images'
                   defaultValue={images}
                   onChange={e => onChange(e)}
-                  required
                 >
                 </textarea>
               </div>

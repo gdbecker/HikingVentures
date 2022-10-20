@@ -4,7 +4,7 @@ import PageBanner from '../components/PageBanner';
 import ParkCard from '../components/ParkCard';
 import Footer from '../components/Footer';
 import Images from '../assets/imgIndex';
-import axios from 'axios';
+import APIService from '../components/APIService';
 
 function ParksPage({ user }) {
 
@@ -54,28 +54,16 @@ function ParksPage({ user }) {
 
   async function getData() {
     if (localStorage.getItem('access')) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/parks/`, config)
-         .then(function (response) {
-           setParks(response.data)
-           setFilteredParks(response.data)
-           const uniqueStates = [...new Map(response.data.map(p => [p.state['id'], p.state])).values()];
-           setStateFilter(uniqueStates)
-           setIsLoading(false)
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
+      APIService.GetParks()
+      .then(response => response.json())
+      .then(response => {
+        setParks(response)
+        setFilteredParks(response)
+        const uniqueStates = [...new Map(response.map(p => [p.state['id'], p.state])).values()];
+        setStateFilter(uniqueStates)
+        setIsLoading(false)
+      })
+      .catch(error => console.log(error))
     }
   }
 

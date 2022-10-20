@@ -1,4 +1,24 @@
 export default class APIService {
+  // Difficulty
+  static GetDifficulty() {
+    return fetch(`${process.env.REACT_APP_API_URL}/hvapp/difficulties/`, {
+      'method':'GET',
+      headers: {
+        'Content-Type':'application/json'
+      }
+    })
+  }
+
+  // RouteType
+  static GetRouteTypes() {
+    return fetch(`${process.env.REACT_APP_API_URL}/hvapp/routetypes/`, {
+      'method':'GET',
+      headers: {
+        'Content-Type':'application/json'
+      }
+    })
+  }
+
   // State
   static GetStates() {
     return fetch(`${process.env.REACT_APP_API_URL}/hvapp/states/`, {
@@ -63,6 +83,93 @@ export default class APIService {
     })
   }
 
+  // Trail
+  static GetTrails() {
+    return fetch(`${process.env.REACT_APP_API_URL}/hvapp/trails/`, {
+      'method':'GET',
+      headers: {
+        'Content-Type':'application/json'
+      }
+    })
+  }
+
+  static GetTrail(id) {
+    return fetch(`${process.env.REACT_APP_API_URL}/hvapp/trails/${id}/`, {
+      'method':'GET',
+      headers: {
+        'Content-Type':'application/json'
+      }
+    })
+  }
+
+  static AddTrail(body) {
+    return fetch(`${process.env.REACT_APP_API_URL}/hvapp/trails/create/`, {
+      'method':'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+        'Accept': 'application/json'
+      },
+      body: body
+    })
+  }
+
+  static UpdateTrail(id, body) {
+    return fetch(`${process.env.REACT_APP_API_URL}/hvapp/trails/${id}/update/`, {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+        'Accept': 'application/json'
+      },
+      body: body
+    })
+  }
+
+  static DeleteTrail(id) {
+    return fetch(`${process.env.REACT_APP_API_URL}/hvapp/trails/${id}/delete/`, {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+        'Accept': 'application/json'
+      }
+    })
+  }
+
+  // Image
+  static GetImages() {
+    return fetch(`${process.env.REACT_APP_API_URL}/hvapp/images/`, {
+      'method':'GET',
+      headers: {
+        'Content-Type':'application/json'
+      }
+    })
+  }
+
+  static AddImage(body) {
+    return fetch(`${process.env.REACT_APP_API_URL}/hvapp/images/create/`, {
+      'method':'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+        'Accept': 'application/json'
+      },
+      body: body
+    })
+  }
+
+  static DeleteImage(id) {
+    return fetch(`${process.env.REACT_APP_API_URL}/hvapp/images/${id}/delete/`, {
+      'method':'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+        'Accept': 'application/json'
+      }
+    })
+  }
+
   // Review
   static GetReviews() {
     return fetch(`${process.env.REACT_APP_API_URL}/hvapp/reviews/`, {
@@ -70,6 +177,18 @@ export default class APIService {
       headers: {
         'Content-Type':'application/json'
       }
+    })
+  }
+
+  static AddReview(body) {
+    return fetch(`${process.env.REACT_APP_API_URL}/hvapp/reviews/create/`, {
+      'method':'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `JWT ${localStorage.getItem('access')}`,
+        'Accept': 'application/json'
+      },
+      body: body
     })
   }
 

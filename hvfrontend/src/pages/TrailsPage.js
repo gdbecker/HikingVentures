@@ -4,7 +4,7 @@ import PageBanner from '../components/PageBanner';
 import TrailCard from '../components/TrailCard';
 import Footer from '../components/Footer';
 import Images from '../assets/imgIndex';
-import axios from 'axios';
+import APIService from '../components/APIService';
 
 function TrailsPage({ user }) {
 
@@ -120,63 +120,39 @@ function TrailsPage({ user }) {
 
   async function getData() {
     if (localStorage.getItem('access')) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
+      APIService.GetTrails()
+      .then(response => response.json())
+      .then(response => {
+        setTrails(response)
+        setFilteredTrails(response)
+        const uniqueParks = [...new Map(response.map(t => [t.park['id'], t.park])).values()];
+        setParkFilter(uniqueParks)
+        const uniqueStates = [...new Map(response.map(t => [t.park.state['id'], t.park.state])).values()];
+        setStateFilter(uniqueStates)
+        const uniqueDifficulty = [...new Map(response.map(t => [t.difficulty['id'], t.difficulty])).values()];
+        setDifficultyFilter(uniqueDifficulty)
+        const uniqueRouteTypes = [...new Map(response.map(t => [t.routetype['id'], t.routetype])).values()];
+        setRouteTypeFilter(uniqueRouteTypes)
+      })
+      .catch(error => console.log(error))
 
-      try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/trails/`, config)
-         .then(function (response) {
-           setTrails(response.data)
-           setFilteredTrails(response.data)
-           const uniqueParks = [...new Map(response.data.map(t => [t.park['id'], t.park])).values()];
-           setParkFilter(uniqueParks)
-           const uniqueStates = [...new Map(response.data.map(t => [t.park.state['id'], t.park.state])).values()];
-           setStateFilter(uniqueStates)
-           const uniqueDifficulty = [...new Map(response.data.map(t => [t.difficulty['id'], t.difficulty])).values()];
-           setDifficultyFilter(uniqueDifficulty)
-           const uniqueRouteTypes = [...new Map(response.data.map(t => [t.routetype['id'], t.routetype])).values()];
-           setRouteTypeFilter(uniqueRouteTypes)
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
+      APIService.GetReviews()
+      .then(response => response.json())
+      .then(response => {
+        setReviews(response)
+        setIsLoading(false)
+      })
+      .catch(error => console.log(error))
 
-      } catch (err) {
-        console.log(err)
-      }
-
-      try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/reviews/`, config)
-         .then(function (response) {
-           setReviews(response.data)
-
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
-
-      try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/hvapp/userfavorites/`, config)
-         .then(function (response) {
-           let ufArray = response.data
-           let newArray = ufArray.filter(u => u.user.id == user?.id)
-           setUserFavorites(newArray)
-           setIsLoading(false)
-         })
-        .catch(function (error) {
-           console.log(error);
-        });
-
-      } catch (err) {
-        console.log(err)
-      }
+      APIService.GetUserFavorites()
+      .then(response => response.json())
+      .then(response => {
+        let ufArray = response
+        let newArray = ufArray.filter(u => u.user.id == user?.id)
+        setUserFavorites(newArray)
+        setIsLoading(false)
+      })
+      .catch(error => console.log(error))
     }
   }
 
