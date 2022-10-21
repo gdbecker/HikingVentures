@@ -54,9 +54,7 @@ INSTALLED_APPS = [
     'djoser',
     'hvapp',
     'accounts',
-
     'crispy_forms',
-
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -193,9 +191,6 @@ DJOSER = {
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
     }
 }
-
-# LOGIN_REDIRECT_URL = 'Cafe:favorites'
-# LOGOUT_REDIRECT_URL = 'home'
 
 INTERNAL_IPS = ['127.0.0.1']
 
