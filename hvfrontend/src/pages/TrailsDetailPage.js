@@ -154,8 +154,6 @@ function TrailsDetailPage({ user }) {
     window.location.reload(false);
   }
 
-  // <img className="map-image" src={`${trail?.map_url}`} alt="map"/>
-
   if (isLoading === false) {
     const clean_map_url = DOMPurify.sanitize(trail.map_url);
     console.log(trail.map_url)
