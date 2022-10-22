@@ -24,7 +24,6 @@ function AdminParkModifyPage() {
       }))
       .catch(error => console.log(error))
     }
-
   },[]);
 
   async function getData() {
