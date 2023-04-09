@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'hvapp',
     'accounts',
     'crispy_forms',
+    'crispy_bootstrap4',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
