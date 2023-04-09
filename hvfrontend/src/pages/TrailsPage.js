@@ -136,20 +136,20 @@ function TrailsPage({ user }) {
       })
       .catch(error => console.log(error))
 
-      APIService.GetReviews()
-      .then(response => response.json())
-      .then(response => {
-        setReviews(response)
-        setIsLoading(false)
-      })
-      .catch(error => console.log(error))
-
       APIService.GetUserFavorites()
       .then(response => response.json())
       .then(response => {
         let ufArray = response
         let newArray = ufArray.filter(u => u.user.id == user?.id)
         setUserFavorites(newArray)
+        
+      })
+      .catch(error => console.log(error))
+
+      APIService.GetReviews()
+      .then(response => response.json())
+      .then(response => {
+        setReviews(response)
         setIsLoading(false)
       })
       .catch(error => console.log(error))
