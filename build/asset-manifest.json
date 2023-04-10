@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/static/css/main.26881014.css",
+    "main.js": "/static/js/main.df0f304b.js",
+    "static/js/787.5ca057ad.chunk.js": "/static/js/787.5ca057ad.chunk.js",
+    "static/media/bg-parks.jpg": "/static/media/bg-parks.5659554331f5bf2fae66.jpg",
+    "static/media/bg-saved.jpg": "/static/media/bg-saved.44e25b2a74f1dc52827b.jpg",
+    "static/media/bg-trails.jpg": "/static/media/bg-trails.161cc9194b8fa99b3ed4.jpg",
+    "static/media/Garrett Becker.jpg": "/static/media/Garrett Becker.87d0ede55bcc0587c074.jpg",
+    "static/media/bg-landing.jpg": "/static/media/bg-landing.8a883259f54e2fac6a9b.jpg",
+    "static/media/Martel-Regular.ttf": "/static/media/Martel-Regular.583920b99f611400f3b8.ttf",
+    "static/media/Poppins-Regular.ttf": "/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
+    "static/media/topography-blue.svg": "/static/media/topography-blue.320f12b4f6633f3f0a8c.svg",
+    "static/media/topography-light-green.svg": "/static/media/topography-light-green.ef272dcbf38c6fa1da3d.svg",
+    "static/media/topography-tan.svg": "/static/media/topography-tan.44ab8871d34075140312.svg",
+    "static/media/logo.svg": "/static/media/logo.d722286bb0c3ff124dce31e4d4c2f4e7.svg",
+    "static/media/add_favorite.svg": "/static/media/add_favorite.d2a2d84005f886b5f5c20fe0cb577f61.svg",
+    "static/media/github.svg": "/static/media/github.171b179b9abcd796dce0204e58bb5c5f.svg",
+    "index.html": "/index.html",
+    "static/media/instagram.svg": "/static/media/instagram.cd7c56d1b96ac5cbc05ba646edfde24e.svg",
+    "static/media/favorite.svg": "/static/media/favorite.a6dc763d42bd03b280e55b40beb3f579.svg",
+    "static/media/facebook.svg": "/static/media/facebook.e6b856b56c51f12e2816f77522ce4a54.svg",
+    "static/media/envelope.svg": "/static/media/envelope.80b4b2e0eb51c3b5e83f5dc6392f5c82.svg",
+    "static/media/trash.svg": "/static/media/trash.26cfd3d2054b6e033432eeaef8b63944.svg",
+    "static/media/tiktok.svg": "/static/media/tiktok.a8a5249742d5c609b50d68d524f51ff5.svg",
+    "main.26881014.css.map": "/static/css/main.26881014.css.map",
+    "main.df0f304b.js.map": "/static/js/main.df0f304b.js.map",
+    "787.5ca057ad.chunk.js.map": "/static/js/787.5ca057ad.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.26881014.css",
+    "static/js/main.df0f304b.js"
+  ]
+}
