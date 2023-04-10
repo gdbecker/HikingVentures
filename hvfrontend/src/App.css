@@ -3,7 +3,8 @@ Blue: #525E75
 Dark Green: #78938A
 Light Green: #92ba92
 Tan: #F1DDBF
-Light Gray: #E6E6E3*/
+Light Gray: #E6E6E3
+*/
 
 /* Imported Fonts */
 @font-face {
@@ -75,42 +76,24 @@ Light Gray: #E6E6E3*/
   background-color: #78938A ;
 }
 
-.account-button {
-  background-color: #525E75;
-  border: 0px;
-  color: white;
-  font-size: 110%;
-  font-weight: bold;
-  margin: 2.5%;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  text-align: center;
-  top: 50%;
-  width: 18%;
+/* About Page */
+#about-page {
+  background-image: url('assets/topography-blue.svg');
+  background-color: #92ba92;
+  background-repeat: repeat;
+  background-position: center;
+  font-family: Poppins;
+  min-height: 100vh;
+  position: relative;
+  text-align: left;
+  width: auto;
 }
 
-.account-button:hover {
-  background-color: #78938A ;
-}
-
-.account-form {
+.about-container {
   text-align: center;
 }
 
-.account-form-help {
-  color: black;
-  font-family: Martel;
-}
-
-.account-form-link {
-  color: black;
-}
-
-.account-form-link:hover {
-  color: #F1DDBF;
-}
-
-.account-image-crop {
+.about-image-crop {
   border-radius: 50%;
   height: 200px;
   overflow: hidden;
@@ -120,11 +103,31 @@ Light Gray: #E6E6E3*/
   margin-left: auto;
   margin-right: auto;
   margin-top: 10%;
+  
 }
 
-.account-image {
+.about-image {
   height: 100%;
   width: auto;
+  object-position: -25px;
+}
+
+.about-box {
+  margin-top: 5%;
+  margin-bottom: 10%;
+  padding: 15px;
+  text-align: center;
+}
+
+.about-subtitle {
+  font-family: Poppins;
+  margin-bottom: 5%;
+  text-align: center;
+}
+
+.about-text {
+  font-family: Martel;
+  font-weight: bold;
 }
 
 /* Login & Register Page */
@@ -292,7 +295,7 @@ Light Gray: #E6E6E3*/
   background-color: white;
   padding-left: 5%;
   text-align: center;
-  margin-bottom: -10%;
+  margin-bottom: 0%;
 }
 
 .trails-content-text {
@@ -464,6 +467,58 @@ hr {
 .account-history-text {
   font-family: Martel;
   text-align: left;
+}
+
+.account-button {
+  background-color: #525E75;
+  border: 0px;
+  color: white;
+  font-size: 110%;
+  font-weight: bold;
+  margin: 2.5%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+  top: 50%;
+  width: 18%;
+}
+
+.account-button:hover {
+  background-color: #78938A ;
+}
+
+.account-form {
+  text-align: center;
+}
+
+.account-form-help {
+  color: black;
+  font-family: Martel;
+}
+
+.account-form-link {
+  color: black;
+}
+
+.account-form-link:hover {
+  color: #F1DDBF;
+}
+
+.account-image-crop {
+  border-radius: 50%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10%;
+}
+
+.account-image {
+  height: 100%;
+  width: auto;
 }
 
 /* Admin Pages */
@@ -643,5 +698,9 @@ textarea {
 }
 
 .tiktok-icon {
+  fill: #010101;
+}
+
+.github-icon {
   fill: #010101;
 }

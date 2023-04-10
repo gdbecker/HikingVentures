@@ -15,6 +15,7 @@ import ResetPasswordConfirmPage from './pages/ResetPasswordConfirmPage';
 import AccountActivatePage from './pages/AccountActivatePage';
 
 import LandingPage from './pages/LandingPage';
+import AboutPage from './pages/AboutPage'
 import TrailsPage from './pages/TrailsPage';
 import TrailsDetailPage from './pages/TrailsDetailPage';
 import ParksPage from './pages/ParksPage';
@@ -50,6 +51,7 @@ function App() {
               <Route path="/activate/:uid/:token" element={<AccountActivatePage />} />
 
               <Route path="/" element={<LandingPage />} />
+              <Route path="/about" element={<AboutPage />} />
               <Route path="/trails" element={<TrailsPage />} />
               <Route path="/trails/:id" element={<TrailsDetailPage />}/>
               <Route path="/parks" element={<ParksPage />} />

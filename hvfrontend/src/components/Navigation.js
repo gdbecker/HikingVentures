@@ -10,6 +10,9 @@ function Navigation({ logout, isAuthenticated, user }, props) {
   const guestLinks = () => (
     <Fragment>
       <li className="nav-item">
+        <a className="nav-link" href="/about">about</a>
+      </li>
+      <li className="nav-item">
         <a className="nav-link" href="/login">login</a>
       </li>
       <li className="nav-item">
