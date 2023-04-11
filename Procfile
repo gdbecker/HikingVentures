@@ -1,1 +1,1 @@
-web: gunicorn HikingVentures.HikingVentures.wsgi:application
+web: gunicorn HikingVentures.HikingVentures.wsgi
