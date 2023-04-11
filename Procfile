@@ -1,1 +1,1 @@
-web: gunicorn HikingVentures.HikingVentures.wsgi
+web: gunicorn HikingVentures.HikingVentures.wsgi --log-file -
