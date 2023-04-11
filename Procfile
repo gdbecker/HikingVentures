@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath HikingVentures HikingVentures.wsgi
+web: gunicorn HikingVentures.HikingVentures.wsgi:application
