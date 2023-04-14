@@ -682,23 +682,18 @@ textarea {
 
 .social-icon {
   margin: 18px;
-  width: 2.2%;
+}
+
+.social-icon:hover {
+  fill: #FFFFFF;
 }
 
 .email-icon {
   fill: #92ba92;
 }
 
-.facebook-icon {
-  fill: #1877F2;
-}
-
-.instagram-icon {
-  fill: #c32aa3;
-}
-
-.tiktok-icon {
-  fill: #010101;
+.linkedin-icon {
+  fill: #0072b1;
 }
 
 .github-icon {
