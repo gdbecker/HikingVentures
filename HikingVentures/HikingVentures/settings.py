@@ -189,7 +189,9 @@ DJOSER = {
 }
 
 INTERNAL_IPS = ['127.0.0.1']
-CSRF_TRUSTED_ORIGINS = ['https://hikingventures-gb.up.railway.app']
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://hikingventures.gdbecker.repl.co',
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -197,6 +199,7 @@ CSRF_TRUSTED_ORIGINS = ['https://hikingventures-gb.up.railway.app']
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ORIGIN_ALLOW_ALL = True
+# new CORS_ALLOW_ALL_ORIGINS = True
 
 # accounts: authentication
 AUTH_USER_MODEL = 'accounts.UserAccount'

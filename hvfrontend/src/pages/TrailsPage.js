@@ -152,6 +152,9 @@ function TrailsPage({ user }) {
         setReviews(response)
         setIsLoading(false)
       })
+      .then(response => {
+        console.log(response)
+      })
       .catch(error => console.log(error))
     }
   }
