@@ -1,6 +1,7 @@
 # anything virtual environment or environment variables
 .env
 .env*.local
+**/.env
 /env/
 /venv/
 /hvEnv/
