@@ -52,7 +52,7 @@ function AccountReviewsPage({ user }) {
           </div>
         </div>
 
-        <div className="container px-0">
+        <div className="container">
           <div className="row g-2">
             {reviews.map((r, index) => {
                 return (

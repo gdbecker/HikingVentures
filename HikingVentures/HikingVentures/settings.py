@@ -193,6 +193,14 @@ INTERNAL_IPS = ['127.0.0.1']
 #     'https://hikingventures.gdbecker.repl.co',
 # ]
 
+# CSRF_TRUSTED_ORIGINS = [
+#     'http://127.0.0.1:8000',
+#     'https://hikingventures.gdbecker.repl.co',
+#     'https://hikingventures--gdbecker.repl.co',
+#     'https://f1d1ae6d-e444-40e4-9bf1-31559ec4a70a-00-ivtuh9u1pi5x.hacker.replit.dev',
+#     'https://hikingventures-gdbecker.replit.app',
+# ]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

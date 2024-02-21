@@ -167,7 +167,7 @@ function TrailsPage({ user }) {
           img_url={Images.trail}
         />
 
-        <div className="container px-0 filter-form">
+        <div className="container filter-form">
           <div className="row g-2">
             <div className="col-md-12">
               <form>
